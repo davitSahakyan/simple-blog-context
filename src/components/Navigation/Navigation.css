@@ -1,0 +1,21 @@
+
+.navigation-container{
+  background-color: 	rgb(230, 230, 230);
+}
+.navigation{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+.icon{
+  font-size: 2rem;
+  color: lightskyblue;
+}
+.left-nav{
+  display: flex;
+  align-items: center;
+}
+.create-post-btn{
+  margin-left: 1rem;
+}
