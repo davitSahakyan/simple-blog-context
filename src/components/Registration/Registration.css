@@ -1,0 +1,15 @@
+.registartion{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+.registartion-box{
+  margin-top: 5rem;
+  font-size: 2rem;
+}
+.log-in-btn{
+  color: #82b308;
+  cursor: pointer;
+}
