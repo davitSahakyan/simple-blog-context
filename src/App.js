@@ -1,10 +1,14 @@
 import React from 'react';
 import './App.css';
+import { Link, Route, Switch } from 'react-router-dom';
+import Registration from './components/Registration/Registration'
 
 function App() {
   return (
     <div className="app">
-      <div className='title'>Here will be My Blog</div>
+      <Switch>
+        <Route path='/' component={Registration} />
+      </Switch>
     </div>
   );
 }
