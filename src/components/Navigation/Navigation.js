@@ -11,7 +11,7 @@ class Navigation extends React.Component{
           <div className='left-nav'>
             <div>
                 <span className='icon'>
-                  <i class="fas fa-blog" />
+                  <i className="fas fa-blog" />
                   Blog
                 </span>
              </div>
