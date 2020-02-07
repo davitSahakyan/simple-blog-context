@@ -1,5 +1,7 @@
 import React from 'react'
 import './Navigation.css'
+import { withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class Navigation extends React.Component{
   
@@ -10,16 +12,18 @@ class Navigation extends React.Component{
         <div className='navigation'>
           <div className='left-nav'>
             <div>
+              <Link to='/'>
                 <span className='icon'>
                   <i className="fas fa-blog" />
                   Blog
                 </span>
+              </Link>
              </div>
             <div className='create-post-btn'>
-              <a href='/'>create post</a>
+              <a href=' '>create post</a>
              </div>
           </div>
-          <div className='right-nav'>
+          <div className='right-nav' onClick={() =>this.props.history.push('/verify/')} >
             <div type='button'>
               Log in
             </div>
@@ -30,4 +34,4 @@ class Navigation extends React.Component{
   }
 }
 
-export default Navigation
+export default withRouter(Navigation)
