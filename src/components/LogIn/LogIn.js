@@ -1,13 +1,16 @@
 import React from "react";
 import "./LogIn.css";
+import { withRouter } from 'react-router-dom'
 
 class LogIn extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             username: "",
             password: "",
-            errors: []
+            errors: [],
+            isLoggedIn : false,
+            a : 'sd',
         };
     }
 
@@ -17,7 +20,7 @@ class LogIn extends React.Component {
         }));
     };
 
-    clearValidationError(element) {
+    clearValidationError = (element) => {
         this.setState(prevState => {
             let newArray = [];
             for (let err of prevState.errors) {
@@ -37,16 +40,32 @@ class LogIn extends React.Component {
             this.setState({ password: e.target.value });
             this.clearValidationError("password");
         }
+        
     };
 
-    submitRegistration = e => {
-        if (this.state.username === "") {
+    submitRegistration = () => {
+        const { username , password  } = this.state
+        if (username === "") {
             this.showValidationError("username", "Username can't be empty");
         }
-        if (this.state.password === "") {
+        if (password === "") {
             this.showValidationError("password", "Password can't be empty");
         }
+
+        if(username && password){
+            this.setState({ isLoggedIn : true} , 
+            () => this.refresh()
+            )
+        }
     };
+
+    refresh = () =>{
+        this.props.changeRegistrationStatus(this.state.isLoggedIn)
+        this.props.history.push("/simple-blog/main")
+    }
+
+
+    
 
     render() {
         let usernameErr = null;
@@ -89,16 +108,17 @@ class LogIn extends React.Component {
                         {" "}
                         {passwordErr ? passwordErr : ""}{" "}
                     </sub>
-                    <button
-                        className="login-btn"
-                        onClick={this.submitRegistration}
-                    >
-                        log in
-                    </button>
+                        <button
+                            className="login-btn"
+                            onClick={this.submitRegistration}
+                        >
+                            log in
+                        </button>
+                        
                 </div>
             </div>
         );
     }
 }
 
-export default LogIn;
+export default withRouter(LogIn);
