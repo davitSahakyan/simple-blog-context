@@ -19,11 +19,11 @@ class LogIn extends React.Component{
     this.setState((prevState) =>{
        let newArray = [];
        for(let err of prevState.errors){
-         if(element !== err.element){
+         if(element !== err.element){ 
            newArray.push(err);
          }
        }
-       return newArray
+       return { errors : newArray}
     } )
   }
 
@@ -32,8 +32,10 @@ class LogIn extends React.Component{
   handleChange = (e) =>{
      if(e.target.id  === 'username'){
        this.setState({ username : e.target.value})
+       this.clearValidationError('username')
      }else if(e.target.id  === 'password'){
       this.setState({ password : e.target.value})
+      this.clearValidationError('password')
      }
   }
 
@@ -60,7 +62,6 @@ class LogIn extends React.Component{
       }
     }
 
-    console.log(this.state)
 
     return(
       <div className='login-container'>
