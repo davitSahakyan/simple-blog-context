@@ -23,7 +23,7 @@ class Navigation extends React.Component{
               <a href=' '>create post</a>
              </div>
           </div>
-          <div className='right-nav' onClick={() =>this.props.history.push('/verify/')} >
+          <div className='right-nav' onClick={() =>this.props.history.push('/simple-blog/verify/')} >
             <div type='button'>
               Log in
             </div>

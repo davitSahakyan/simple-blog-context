@@ -16,7 +16,7 @@ class Registration extends React.Component{
          <div className='registartion-box'>
             <span 
                className='log-in-btn' 
-               onClick={()=>this.props.history.push('/verify')} >Log in </span> 
+               onClick={()=>this.props.history.push('/simple-blog/verify')} >Log in </span> 
                and tell us your story!!!
          </div>
        </div>
