@@ -1,6 +1,7 @@
 import React from 'react';
 import './Main.css';
 import Comment from '../Comment/Comment'
+import InputPart from './InputPart/InputPart'
 
 class Main extends React.Component{
   constructor(props){
@@ -18,6 +19,13 @@ class Main extends React.Component{
     )
   }
 
+  addToComments = (comment) =>{
+    this.setState({
+      comments : [...this.state.comments , comment],
+      isShowingInput : !this.state.isShowingInput,
+    })
+
+  }
 
   render(){
     const { comments , isShowingInput } = this.state
@@ -38,14 +46,7 @@ class Main extends React.Component{
 
     if(isShowingInput === true){
        return(
-         <div className='input-part'>
-           <div className='input-container'>
-             <input 
-             type='text' 
-             placeholder='write comment'
-              />
-           </div>
-         </div>
+         <InputPart addToComments={this.addToComments} />  
        )
     }
 
@@ -53,7 +54,7 @@ class Main extends React.Component{
     return(
       <div>
         {comments.map( coment =>{
-          return  <Comment  />
+          return  <div> {coment}</div>
         })} 
       </div>
     )
