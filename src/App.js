@@ -4,14 +4,22 @@ import { Route, Switch , Redirect } from "react-router-dom";
 import Registration from "./components/Registration/Registration";
 import Navigation from "./components/Navigation/Navigation";
 import LogIn from "./components/LogIn/LogIn";
-import Main from './components/Main/Main'
+import Create from './components/Create/Create'
+import Posts from './components/Posts/Posts'
 
 class App extends React.Component {
     constructor(){
         super();
         this.state={
             isLoggedIn : false,
+            posts : [],
         }
+    }
+
+    handleAddPost = (post) =>{
+      this.setState({
+        posts : [...this.state.posts , post ]
+      })
     }
 
     changeRegistrationStatus = (status) =>{
@@ -19,6 +27,7 @@ class App extends React.Component {
     }
 
     render(){
+      const { isLoggedIn , posts} = this.state
       return (
         <div className="app">
             <Navigation isLoggedIn={this.state.isLoggedIn}/>
@@ -26,11 +35,11 @@ class App extends React.Component {
                 <Route path="/simple-blog/verify" >
                   <LogIn changeRegistrationStatus={this.changeRegistrationStatus}/>
                 </Route>
-                <Route path='/simple-blog/main'>
-                  {this.state.isLoggedIn ? <Main /> : <Redirect to="/simple-blog/verify" />}
+                <Route path='/simple-blog/create'>
+                  {isLoggedIn ? <Create /> : <Redirect to="/simple-blog/verify" />}
                 </Route>
                 <Route path="/simple-blog"  exact >
-                  <Registration />
+                  {posts === [] ? <Posts posts={posts} handleAddPost={this.handleAddPost}/> : <Registration />} 
                 </Route>
             </Switch>
         </div>

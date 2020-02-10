@@ -10,7 +10,6 @@ class LogIn extends React.Component {
             password: "",
             errors: [],
             isLoggedIn : false,
-            a : 'sd',
         };
     }
 
@@ -61,7 +60,7 @@ class LogIn extends React.Component {
 
     refresh = () =>{
         this.props.changeRegistrationStatus(this.state.isLoggedIn)
-        this.props.history.push("/simple-blog/main")
+        this.props.history.push("/simple-blog/create")
     }
 
 
