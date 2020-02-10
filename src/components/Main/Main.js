@@ -1,7 +1,8 @@
 import React from 'react';
 import './Main.css';
-import Comment from '../Comment/Comment'
+// import Comment from '../Comment/Comment'
 import InputPart from './InputPart/InputPart'
+import Greetings from './Greetings/Greetings'
 
 class Main extends React.Component{
   constructor(props){
@@ -32,16 +33,7 @@ class Main extends React.Component{
     console.log('isSHOWInput' , isShowingInput)
     if(comments == false && isShowingInput === false ){
       console.log('uuuu')
-      return (
-      <div className='greeting-container'>
-        <div className='greeting'>
-            <h1> Hello you have succesfully loged in!!</h1>
-            <h2> 
-              <span onClick={this.addComment} type='button' >Write</span>{' '}
-              a first comment!</h2>
-        </div>
-      </div>
-      )
+      return <Greetings addComment={this.addComment}  />
     }
 
     if(isShowingInput === true){
