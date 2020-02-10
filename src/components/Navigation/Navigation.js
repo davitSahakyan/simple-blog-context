@@ -18,9 +18,12 @@ class Navigation extends React.Component {
                                 </span>
                             </Link>
                         </div>
-                        <div className="create-post-btn">
-                            <a href=" ">create post</a>
-                        </div>
+                        <Link to='/simple-blog/create'>
+                          <div className="create-post-btn">
+                             create post
+                           </div>
+                        </Link>
+                        
                     </div>
                     {this.props.isLoggedIn ? (
                         <div
