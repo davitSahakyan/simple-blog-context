@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch , Redirect } from "react-router-dom";
 import Registration from "./components/Registration/Registration";
 import Navigation from "./components/Navigation/Navigation";
 import LogIn from "./components/LogIn/LogIn";
@@ -26,8 +26,12 @@ class App extends React.Component {
                 <Route path="/simple-blog/verify" >
                   <LogIn changeRegistrationStatus={this.changeRegistrationStatus}/>
                 </Route>
-                <Route path='/simple-blog/main' component={Main}/>
-                <Route path="/simple-blog" component={Registration} exact />
+                <Route path='/simple-blog/main'>
+                  {this.state.isLoggedIn ? <Main /> : <Redirect to="/simple-blog/verify" />}
+                </Route>
+                <Route path="/simple-blog"  exact >
+                  <Registration />
+                </Route>
             </Switch>
         </div>
      );  
