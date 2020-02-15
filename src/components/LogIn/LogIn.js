@@ -61,10 +61,9 @@ class LogIn extends React.Component {
     refresh = () =>{
         this.props.changeRegistrationStatus(this.state.isLoggedIn)
         this.props.history.push("/simple-blog/create")
+        this.props.handleUsername(this.state.username)
     }
 
-
-    
 
     render() {
         let usernameErr = null;

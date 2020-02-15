@@ -15,7 +15,7 @@ class Create extends React.Component{
   }
 
   handleGreetingStatusChange = () =>{
-    this.setState({ isShowingGreeting : false })
+    this.setState({ isShowingGreeting : false }) 
   }
 
   handleInputChange = (e) =>{
@@ -34,8 +34,9 @@ class Create extends React.Component{
 
   callback = () =>{
      this.props.history.push("/simple-blog/") 
-     this.props.handleAddPost({ 'postId' : this.state.inputId , 'text' : this.state.inputValue })
-     
+     this.props.handleAddPost({ 'postId' : this.state.inputId , 
+                                'text' : this.state.inputValue , 
+                                'username' : this.props.username })
   }
 
 
@@ -43,7 +44,7 @@ class Create extends React.Component{
   render(){
     const { isShowingGreeting } = this.state
 
-    if(isShowingGreeting === true ){
+    if( isShowingGreeting === true){
       return <Greetings handleGreetingStatusChange={this.handleGreetingStatusChange}  />
     }
 
