@@ -3,6 +3,8 @@ import './Main.css';
 // import Comment from '../Comment/Comment'
 import Greetings from './Greetings/Greetings'
 import { withRouter } from 'react-router-dom'
+// Material ui
+import TextField from '@material-ui/core/TextField';
 
 class Create extends React.Component{
   constructor(props){
@@ -31,12 +33,18 @@ class Create extends React.Component{
         )
      }
   }
+  time = () =>{
+    let date = new Date();
+    return date.toLocaleTimeString();
+  }
 
   callback = () =>{
      this.props.history.push("/simple-blog/") 
      this.props.handleAddPost({ 'postId' : this.state.inputId , 
                                 'text' : this.state.inputValue , 
-                                'username' : this.props.username })
+                                'username' : this.props.username,
+                                'time' : this.time(),
+                               })
   }
 
 
@@ -50,7 +58,7 @@ class Create extends React.Component{
 
     return(
       <div className='input-global-container'>
-        <div className='input-container'>
+        {/* <div className='input-container'>
           <input 
             type='text' 
             placeholder='Write a post' 
@@ -58,7 +66,14 @@ class Create extends React.Component{
             onChange={this.handleInputChange}
             onKeyDown={this.handleOnKeyDown}
             />
-        </div>
+        </div> */}
+        <form  noValidate autoComplete="off">
+          <TextField 
+             id="standard-basic" 
+             label="Write a post" 
+             onChange={this.handleInputChange} 
+             onKeyDown={this.handleOnKeyDown}/>
+        </form>
       </div>
     )
   }

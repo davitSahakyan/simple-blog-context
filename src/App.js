@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation/Navigation";
 import LogIn from "./components/LogIn/LogIn";
 import Create from './components/Create/Create'
 import Posts from './components/Posts/Posts'
+import PostCard from './components/Posts/Card'
 
 class App extends React.Component {
     constructor(){
@@ -45,8 +46,11 @@ class App extends React.Component {
                   {isLoggedIn ? <Create handleAddPost={this.handleAddPost} username={this.state.username}/> : <Redirect to="/simple-blog/verify" />}
                 </Route>
                 <Route path="/simple-blog"  exact >
-                  {posts[0] !== undefined ? <Posts posts={posts} /> : <Registration />} 
+                  {posts[0] !== undefined ? <PostCard posts={posts} /> : <Registration />} 
                 </Route>
+                {/* <Route path="/simple-blog"  exact >
+                  {posts[0] !== undefined ? <Posts posts={posts} /> : <Registration />} 
+                </Route> */}
             </Switch>
         </div>
      );  
