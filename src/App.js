@@ -8,6 +8,8 @@ import Create from './components/Create/Create'
 import Posts from './components/Posts/Posts'
 import PostCard from './components/Posts/Card'
 
+import LogOutModal from './components/Navigation/LogOutModal'
+
 class App extends React.Component {
     constructor(){
         super();
@@ -41,7 +43,9 @@ class App extends React.Component {
                changeRegistrationStatus={this.changeRegistrationStatus}/>
 
             <Switch>
-
+                <Route path='/simple-blog/log-out-modal' exact>
+                   <LogOutModal changeRegistrationStatus={this.changeRegistrationStatus}/>
+                </Route>
                 <Route path="/simple-blog/verify" >
                   <LogIn 
                      changeRegistrationStatus={this.changeRegistrationStatus} 

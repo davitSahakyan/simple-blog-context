@@ -30,7 +30,7 @@ class Navigation extends React.Component {
                     {this.props.isLoggedIn ? (
                         <div
                             className="right-nav"
-                            onClick={() => this.props.changeRegistrationStatus(!this.props.isLoggedIn)}
+                            onClick={() => this.props.history.push('/simple-blog/log-out-modal')}
                         >
                             <div type="button">Log out</div>
                         </div>

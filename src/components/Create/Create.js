@@ -94,7 +94,7 @@ class Create extends React.Component{
              color="primary" 
              onClick={this.givePostToApp} 
               >
-             <span><i class="fas fa-check fa-2x"></i></span>
+             <span><i className="fas fa-check fa-2x"></i></span>
           </Button>
         </form>
       </div>
