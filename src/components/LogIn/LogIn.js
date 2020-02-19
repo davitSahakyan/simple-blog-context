@@ -53,12 +53,12 @@ class LogIn extends React.Component {
 
         if(username && password){
             this.setState({ isLoggedIn : true} , 
-            () => this.refresh()
+            () => this.giveToApp()
             )
         }
     };
 
-    refresh = () =>{
+    giveToApp = () =>{
         this.props.changeRegistrationStatus(this.state.isLoggedIn)
         this.props.history.push("/simple-blog/create")
         this.props.handleUsername(this.state.username)

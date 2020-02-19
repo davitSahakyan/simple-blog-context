@@ -43,7 +43,9 @@ class App extends React.Component {
                   <LogIn changeRegistrationStatus={this.changeRegistrationStatus} handleUsername={this.handleUsername}/>
                 </Route>
                 <Route path='/simple-blog/create'>
-                  {isLoggedIn ? <Create handleAddPost={this.handleAddPost} username={this.state.username}/> : <Redirect to="/simple-blog/verify" />}
+                  {isLoggedIn ? 
+                    <Create handleAddPost={this.handleAddPost} username={this.state.username}/> :
+                    <Redirect to="/simple-blog/verify" />}
                 </Route>
                 <Route path="/simple-blog"  exact >
                   {posts[0] !== undefined ? <PostCard posts={posts} /> : <Registration />} 

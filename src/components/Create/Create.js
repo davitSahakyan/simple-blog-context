@@ -1,7 +1,6 @@
 import React from 'react';
 import './Main.css';
 // import Comment from '../Comment/Comment'
-import Greetings from './Greetings/Greetings'
 import { withRouter } from 'react-router-dom'
 // Material ui
 import TextField from '@material-ui/core/TextField';
@@ -50,23 +49,9 @@ class Create extends React.Component{
 
 
   render(){
-    const { isShowingGreeting } = this.state
-
-    if( isShowingGreeting === true){
-      return <Greetings handleGreetingStatusChange={this.handleGreetingStatusChange}  />
-    }
 
     return(
       <div className='input-global-container'>
-        {/* <div className='input-container'>
-          <input 
-            type='text' 
-            placeholder='Write a post' 
-            className='input' 
-            onChange={this.handleInputChange}
-            onKeyDown={this.handleOnKeyDown}
-            />
-        </div> */}
         <form  noValidate autoComplete="off">
           <TextField 
              id="standard-basic" 
