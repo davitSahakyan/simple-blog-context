@@ -20,7 +20,7 @@ class App extends React.Component {
 
     handleAddPost = (post) =>{
       this.setState({
-        posts : [...this.state.posts , post ]
+        posts : [ post ,...this.state.posts  ]
       })
     }
 
@@ -34,25 +34,33 @@ class App extends React.Component {
 
     render(){
       const { isLoggedIn , posts} = this.state
-      console.log( 'posts' , posts)
       return (
         <div className="app">
-            <Navigation isLoggedIn={this.state.isLoggedIn}/>
+            <Navigation 
+               isLoggedIn={this.state.isLoggedIn} 
+               changeRegistrationStatus={this.changeRegistrationStatus}/>
+
             <Switch>
+
                 <Route path="/simple-blog/verify" >
-                  <LogIn changeRegistrationStatus={this.changeRegistrationStatus} handleUsername={this.handleUsername}/>
+                  <LogIn 
+                     changeRegistrationStatus={this.changeRegistrationStatus} 
+                     handleUsername={this.handleUsername}/>
                 </Route>
                 <Route path='/simple-blog/create'>
                   {isLoggedIn ? 
-                    <Create handleAddPost={this.handleAddPost} username={this.state.username}/> :
+                    <Create 
+                        handleAddPost={this.handleAddPost} 
+                        username={this.state.username}
+                        /> :
                     <Redirect to="/simple-blog/verify" />}
                 </Route>
                 <Route path="/simple-blog"  exact >
-                  {posts[0] !== undefined ? <PostCard posts={posts} /> : <Registration />} 
+                  {posts[0] !== undefined ?
+                     <PostCard posts={posts} /> :
+                     <Registration />} 
                 </Route>
-                {/* <Route path="/simple-blog"  exact >
-                  {posts[0] !== undefined ? <Posts posts={posts} /> : <Registration />} 
-                </Route> */}
+
             </Switch>
         </div>
      );  

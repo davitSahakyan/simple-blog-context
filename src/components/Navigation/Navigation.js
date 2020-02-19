@@ -4,6 +4,8 @@ import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 class Navigation extends React.Component {
+
+
     render() {
         console.log(this.props.isLoggedIn)
         return (
@@ -28,9 +30,7 @@ class Navigation extends React.Component {
                     {this.props.isLoggedIn ? (
                         <div
                             className="right-nav"
-                            onClick={() =>
-                                console.log('logged out')
-                            }
+                            onClick={() => this.props.changeRegistrationStatus(!this.props.isLoggedIn)}
                         >
                             <div type="button">Log out</div>
                         </div>
