@@ -79,6 +79,7 @@ class Create extends React.Component{
       <div className='input-global-container'>
         <form className={classes.root}  noValidate autoComplete="off">
           <TextField 
+             className={classes.title}
              id="standard-basic" 
              label="Write a title" 
              onChange={this.handleTitleValueChange} 
