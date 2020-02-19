@@ -45,26 +45,26 @@ function PostCard(props) {
     props.posts.map( ( post , index ) =>{
       return (
         <Card className={classes.root} key={index}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            {post.username}
-          </Avatar>
-        }
-        title="Post time"
-        subheader={post.time}
-      />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {post.text}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="share" color='primary'>
-          <Comment />
-        </IconButton>
-      </CardActions>
-    </Card>
+            <CardHeader
+              avatar={
+                <Avatar aria-label="recipe" className={classes.avatar}>
+                  {post.username.charAt(0)}
+                </Avatar>
+              }
+              title={`${post.titleValue} writed by ${post.username} `}
+              subheader={post.time}
+            />
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {post.postValue}
+              </Typography>
+            </CardContent>
+            <CardActions disableSpacing>
+              <IconButton aria-label="share" color='primary'>
+                <Comment />
+              </IconButton>
+            </CardActions>
+         </Card>
       )
     } )
     

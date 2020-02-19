@@ -4,33 +4,56 @@ import './Main.css';
 import { withRouter } from 'react-router-dom'
 // Material ui
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core';
+
+
+ const styles =  theme => ({
+    root: {
+      width : '80%',
+      '& > *': {
+        margin: theme.spacing(1),
+        width: '100%',
+      },
+    },
+  });
+
+
 
 class Create extends React.Component{
   constructor(props){
     super(props);
     this.state={
       isShowingGreeting : true,
-      inputValue : '',
+      titleValue : '',
+      postValue : '',
       inputId : 0,
     }
   }
+
 
   handleGreetingStatusChange = () =>{
     this.setState({ isShowingGreeting : false }) 
   }
 
-  handleInputChange = (e) =>{
+  // ONCHANGE
+  handleTitleValueChange = (e) =>{
      this.setState({
-       inputValue : e.target.value,
+      titleValue : e.target.value,
      })
   }
 
-  handleOnKeyDown = (e) =>{
-     if(e.key === 'Enter'){
+  handlePostValueChange = (e) =>{
+    this.setState({
+      postValue : e.target.value,
+    })
+ }
+  // ONCHANGE END
+
+  givePostToApp = () =>{
        this.setState({inputId : this.state.inputId + 1},
        () => this.callback()
         )
-     }
   }
   time = () =>{
     let date = new Date();
@@ -40,7 +63,8 @@ class Create extends React.Component{
   callback = () =>{
      this.props.history.push("/simple-blog/") 
      this.props.handleAddPost({ 'postId' : this.state.inputId , 
-                                'text' : this.state.inputValue , 
+                                'titleValue' : this.state.titleValue ,
+                                'postValue' : this.state.postValue,
                                 'username' : this.props.username,
                                 'time' : this.time(),
                                })
@@ -49,19 +73,34 @@ class Create extends React.Component{
 
 
   render(){
+    const { classes } = this.props;
 
     return(
       <div className='input-global-container'>
-        <form  noValidate autoComplete="off">
+        <form className={classes.root}  noValidate autoComplete="off">
           <TextField 
              id="standard-basic" 
+             label="Write a title" 
+             onChange={this.handleTitleValueChange} 
+              />
+          <TextField 
+             id="outlined-basic" 
              label="Write a post" 
-             onChange={this.handleInputChange} 
-             onKeyDown={this.handleOnKeyDown}/>
+             variant="outlined"
+             onChange={this.handlePostValueChange}
+              />
+          <Button 
+             variant="contained" 
+             color="primary" 
+             onClick={this.givePostToApp} 
+              >
+             <span><i class="fas fa-check fa-2x"></i></span>
+          </Button>
         </form>
       </div>
     )
   }
 }
 
-export default withRouter(Create)
+// export default withRouter(Create)
+export default withStyles(styles)(withRouter(Create));
