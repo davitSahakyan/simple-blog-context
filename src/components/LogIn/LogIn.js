@@ -1,6 +1,6 @@
 import React from "react";
 import "./LogIn.css";
-import { withRouter } from 'react-router-dom'
+import { withRouter } from "react-router-dom";
 
 class LogIn extends React.Component {
     constructor(props) {
@@ -9,7 +9,7 @@ class LogIn extends React.Component {
             username: "",
             password: "",
             errors: [],
-            isLoggedIn : false,
+            isLoggedIn: false
         };
     }
 
@@ -19,7 +19,7 @@ class LogIn extends React.Component {
         }));
     };
 
-    clearValidationError = (element) => {
+    clearValidationError = element => {
         this.setState(prevState => {
             let newArray = [];
             for (let err of prevState.errors) {
@@ -29,7 +29,7 @@ class LogIn extends React.Component {
             }
             return { errors: newArray };
         });
-    }
+    };
 
     handleChange = e => {
         if (e.target.id === "username") {
@@ -39,11 +39,10 @@ class LogIn extends React.Component {
             this.setState({ password: e.target.value });
             this.clearValidationError("password");
         }
-        
     };
 
     submitRegistration = () => {
-        const { username , password  } = this.state
+        const { username, password } = this.state;
         if (username === "") {
             this.showValidationError("username", "Username can't be empty");
         }
@@ -51,19 +50,16 @@ class LogIn extends React.Component {
             this.showValidationError("password", "Password can't be empty");
         }
 
-        if(username && password){
-            this.setState({ isLoggedIn : true} , 
-            () => this.giveToApp()
-            )
+        if (username && password) {
+            this.setState({ isLoggedIn: true }, () => this.giveToApp());
         }
     };
 
-    giveToApp = () =>{
-        this.props.changeRegistrationStatus(this.state.isLoggedIn)
-        this.props.history.push("/simple-blog/create")
-        this.props.handleUsername(this.state.username)
-    }
-
+    giveToApp = () => {
+        this.props.changeRegistrationStatus(this.state.isLoggedIn);
+        this.props.history.push("/simple-blog/create");
+        this.props.handleUserInfo(this.state.username, this.state.password);
+    };
 
     render() {
         let usernameErr = null;
@@ -106,13 +102,12 @@ class LogIn extends React.Component {
                         {" "}
                         {passwordErr ? passwordErr : ""}{" "}
                     </sub>
-                        <button
-                            className="login-btn"
-                            onClick={this.submitRegistration}
-                        >
-                            log in
-                        </button>
-                        
+                    <button
+                        className="login-btn"
+                        onClick={this.submitRegistration}
+                    >
+                        log in
+                    </button>
                 </div>
             </div>
         );
