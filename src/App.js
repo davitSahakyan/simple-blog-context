@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation/Navigation";
 import LogIn from "./components/LogIn/LogIn";
 import Create from "./components/Create/Create";
 import PostCard from "./components/Posts/Card";
+import Edit from "./components/Edit/Edit";
 
 import LogOutModal from "./components/Navigation/LogOutModal";
 
@@ -83,6 +84,10 @@ class App extends React.Component {
                         ) : (
                             <Registration />
                         )}
+                    </Route>
+                    {/* EDIT PART */}
+                    <Route path="/simple-blog/post/edit:id" exact>
+                        <Edit posts={posts} />
                     </Route>
                 </Switch>
             </div>

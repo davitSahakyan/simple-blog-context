@@ -7,6 +7,7 @@ import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
+import { withRouter } from "react-router-dom";
 import "./Card.css";
 // components
 import Edit from "../Edit/Edit";
@@ -61,8 +62,16 @@ function PostCard(props) {
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton aria-label="share" color="primary">
-                        <Edit />
+                    <IconButton
+                        aria-label="share"
+                        color="primary"
+                        onClick={() =>
+                            props.history.push(
+                                `/simple-blog/post/edit:${post.postId}`
+                            )
+                        }
+                    >
+                        Edit
                     </IconButton>
                 </CardActions>
             </Card>
@@ -70,4 +79,4 @@ function PostCard(props) {
     });
 }
 
-export default PostCard;
+export default withRouter(PostCard);
