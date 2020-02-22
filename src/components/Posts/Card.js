@@ -9,7 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import "./Card.css";
 // components
-import Comment from "../Comment/Comment";
+import Edit from "../Edit/Edit";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -37,6 +37,7 @@ const useStyles = makeStyles(theme => ({
 function PostCard(props) {
     const classes = useStyles();
     // const [expanded, setExpanded] = React.useState(false);
+    console.log("POSTS ---", props.posts);
 
     return props.posts.map((post, index) => {
         return (
@@ -61,7 +62,7 @@ function PostCard(props) {
                 </CardContent>
                 <CardActions disableSpacing>
                     <IconButton aria-label="share" color="primary">
-                        <Comment />
+                        <Edit />
                     </IconButton>
                 </CardActions>
             </Card>

@@ -24,7 +24,7 @@ class Create extends React.Component {
             isShowingGreeting: true,
             titleValue: "",
             postValue: "",
-            inputId: 0
+            postId: 0
         };
     }
 
@@ -46,20 +46,9 @@ class Create extends React.Component {
     };
     // ONCHANGE END
 
-    givePostToApp = () => {
-        this.setState({ inputId: this.state.inputId + 1 }, () =>
-            this.callback()
-        );
-    };
-    time = () => {
-        let date = new Date();
-        return date.toLocaleTimeString();
-    };
-
     callback = () => {
         this.props.history.push("/simple-blog/");
         this.props.handleAddPost({
-            postId: this.state.inputId,
             titleValue: this.state.titleValue,
             postValue: this.state.postValue,
             username: this.props.users[this.props.users.length - 1].username,
@@ -67,9 +56,20 @@ class Create extends React.Component {
         });
     };
 
+    givePostToApp = () => {
+        this.setState(
+            state => ({ postId: state.postId + 1 }),
+            () => this.callback()
+        );
+    };
+    time = () => {
+        let date = new Date();
+        return date.toLocaleTimeString();
+    };
+
     render() {
         const { classes } = this.props;
-
+        console.log(this.state.postId);
         return (
             <div className="input-global-container">
                 <form className={classes.root} noValidate autoComplete="off">

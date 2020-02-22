@@ -15,13 +15,16 @@ class App extends React.Component {
         this.state = {
             isLoggedIn: false,
             posts: [],
-            users: []
+            users: [],
+            postId: 0
         };
     }
 
     handleAddPost = post => {
+        let postWithId = { ...post, postId: this.state.postId + 1 };
         this.setState({
-            posts: [post, ...this.state.posts]
+            posts: [postWithId, ...this.state.posts],
+            postId: this.state.postId + 1
         });
     };
 
@@ -40,6 +43,7 @@ class App extends React.Component {
 
     render() {
         const { isLoggedIn, posts, users } = this.state;
+        console.log("POSTS---", posts);
         return (
             <div className="app">
                 <Navigation
