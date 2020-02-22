@@ -62,11 +62,17 @@ class Edit extends React.Component {
     onPostValueChange = e => {
         this.setState({ newPostValue: e.target.value });
     };
-
+    // ON done icon click
     handleDoneIconClick = () => {
         const { post, newPostValue } = this.state;
         this.props.history.push("/simple-blog/");
         this.props.handleNewPostValue(post.postId, newPostValue);
+    };
+    // ON delete icon click
+    handleDeleteIconClick = () => {
+        const { post } = this.state;
+        this.props.history.push("/simple-blog/");
+        this.props.handlePostsFilter(post.postId);
     };
 
     render() {
@@ -119,7 +125,10 @@ class Edit extends React.Component {
                             </IconButton>
                         </CardActions>
                         <CardActions disableSpacing>
-                            <IconButton aria-label="share">
+                            <IconButton
+                                aria-label="share"
+                                onClick={this.handleDeleteIconClick}
+                            >
                                 <DeleteForeverIcon
                                     style={{ color: red[500] }}
                                 />

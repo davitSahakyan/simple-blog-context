@@ -65,6 +65,13 @@ class App extends React.Component {
         });
     };
 
+    // Handle function that filteres posts and takes all posts accept deleted
+    handlePostsFilter = id => {
+        this.setState({
+            posts: this.state.posts.filter(post => post.postId !== id)
+        });
+    };
+
     render() {
         const { isLoggedIn, posts, users } = this.state;
         console.log("POSTS---", posts);
@@ -113,6 +120,7 @@ class App extends React.Component {
                         <Edit
                             posts={posts}
                             handleNewPostValue={this.handleNewPostValue}
+                            handlePostsFilter={this.handlePostsFilter}
                         />
                     </Route>
                 </Switch>
