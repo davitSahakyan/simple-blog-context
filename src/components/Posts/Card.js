@@ -10,11 +10,12 @@ import Typography from "@material-ui/core/Typography";
 import { withRouter } from "react-router-dom";
 import "./Card.css";
 // components
-import Edit from "../Edit/Edit";
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: "80%"
+        width: "80%",
+        margin: "auto",
+        marginTop: "5px"
     },
     media: {
         height: 0,
@@ -22,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     },
     expand: {
         transform: "rotate(0deg)",
-        marginLeft: "auto",
+        margin: "auto",
         transition: theme.transitions.create("transform", {
             duration: theme.transitions.duration.shortest
         })
@@ -43,41 +44,46 @@ function PostCard(props) {
     return props.posts.map((post, index) => {
         return (
             <Card className={classes.root} key={index}>
-                <CardHeader
-                    avatar={
-                        <Avatar aria-label="recipe" className={classes.avatar}>
-                            {post.username}
-                        </Avatar>
-                    }
-                    title={`${post.titleValue} writed by ${post.username} `}
-                    subheader={
-                        post.edited
-                            ? `${post.time} edited at ${post.edited}`
-                            : post.time
-                    }
-                />
-                <CardContent>
-                    <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                    >
-                        {post.postValue}
-                    </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                    <IconButton
-                        aria-label="share"
-                        color="primary"
-                        onClick={() =>
-                            props.history.push(
-                                `/simple-blog/post/edit:${post.postId}`
-                            )
+                <div className="card-container">
+                    <CardHeader
+                        avatar={
+                            <Avatar
+                                aria-label="recipe"
+                                className={classes.avatar}
+                            >
+                                {post.username}
+                            </Avatar>
                         }
-                    >
-                        Edit
-                    </IconButton>
-                </CardActions>
+                        title={`${post.titleValue} writed by ${post.username} `}
+                        subheader={
+                            post.edited
+                                ? `${post.time} edited at ${post.edited}`
+                                : post.time
+                        }
+                    />
+                    <CardContent>
+                        <Typography
+                            variant="body2"
+                            color="textSecondary"
+                            component="p"
+                        >
+                            {post.postValue}
+                        </Typography>
+                    </CardContent>
+                    <CardActions disableSpacing>
+                        <IconButton
+                            aria-label="share"
+                            color="primary"
+                            onClick={() =>
+                                props.history.push(
+                                    `/simple-blog/post/edit:${post.postId}`
+                                )
+                            }
+                        >
+                            Edit
+                        </IconButton>
+                    </CardActions>
+                </div>
             </Card>
         );
     });
