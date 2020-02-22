@@ -106,7 +106,15 @@ class Edit extends React.Component {
                         </IconButton>
                     </CardActions>
                     <CardActions disableSpacing>
-                        <IconButton aria-label="share">
+                        <IconButton
+                            aria-label="share"
+                            onClick={() =>
+                                this.props.handleNewPostValue(
+                                    post.postId,
+                                    newPostValue
+                                )
+                            }
+                        >
                             <DoneOutlineIcon color="primary" />
                         </IconButton>
                     </CardActions>

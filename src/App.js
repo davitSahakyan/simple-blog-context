@@ -20,6 +20,11 @@ class App extends React.Component {
             postId: 0
         };
     }
+    // Time
+    time = () => {
+        let date = new Date();
+        return date.toLocaleTimeString();
+    };
 
     handleAddPost = post => {
         let postWithId = { ...post, postId: this.state.postId + 1 };
@@ -39,6 +44,24 @@ class App extends React.Component {
                 ...this.state.users,
                 { username: username, password: password }
             ]
+        });
+    };
+
+    // Handle function that adds new value to post with that id
+    handleNewPostValue = (id, newPostValue) => {
+        this.setState({
+            posts: this.state.posts.map(post => {
+                if (post.postId === id) {
+                    console.log("yes");
+                    return {
+                        ...post,
+                        postValue: newPostValue,
+                        edited: this.time()
+                    };
+                } else {
+                    return post;
+                }
+            })
         });
     };
 
@@ -87,7 +110,10 @@ class App extends React.Component {
                     </Route>
                     {/* EDIT PART */}
                     <Route path="/simple-blog/post/edit:id" exact>
-                        <Edit posts={posts} />
+                        <Edit
+                            posts={posts}
+                            handleNewPostValue={this.handleNewPostValue}
+                        />
                     </Route>
                 </Switch>
             </div>

@@ -46,11 +46,15 @@ function PostCard(props) {
                 <CardHeader
                     avatar={
                         <Avatar aria-label="recipe" className={classes.avatar}>
-                            {post.username.charAt(0)}
+                            {post.username}
                         </Avatar>
                     }
                     title={`${post.titleValue} writed by ${post.username} `}
-                    subheader={post.time}
+                    subheader={
+                        post.edited
+                            ? `${post.time} edited at ${post.edited}`
+                            : post.time
+                    }
                 />
                 <CardContent>
                     <Typography
