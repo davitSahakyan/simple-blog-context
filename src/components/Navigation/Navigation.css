@@ -1,52 +1,51 @@
+.navigation-container {
+    background-color: rgb(230, 230, 230);
+}
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+.icon {
+    font-size: 2rem;
+    color: lightskyblue;
+    cursor: pointer;
+}
+.left-nav {
+    display: flex;
+    align-items: center;
+}
+.create-post-btn {
+    margin-left: 1rem;
+}
+a {
+    color: #82b308;
+    text-transform: capitalize;
+    font-size: 1.2rem;
+    transition: all 0.3s linear;
+    background-color: rgb(230, 230, 230);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 800;
+}
+.create-post-btn:hover a {
+    color: green;
+    background-color: rgb(217, 217, 217);
+}
 
-.navigation-container{
-  background-color: 	rgb(230, 230, 230);
+.right-nav {
+    color: #82b308;
+    text-transform: capitalize;
+    font-size: 1.2rem;
+    transition: all 0.3s linear;
+    background-color: rgb(230, 230, 230);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 800;
+    cursor: pointer;
 }
-.navigation{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-}
-.icon{
-  font-size: 2rem;
-  color: lightskyblue;
-  cursor: pointer;
-}
-.left-nav{
-  display: flex;
-  align-items: center;
-}
-.create-post-btn{
-  margin-left: 1rem;
-}
-a{
-  color: #82b308;
-  text-transform: capitalize;
-  font-size: 1.2rem;
-  transition: all 0.3s linear;
-  background-color: rgb(230, 230, 230) ;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-weight: 800;
-}
-.create-post-btn:hover a{
-  color : green;
-  background-color: rgb(217, 217, 217) ;
-}
-
-.right-nav{
-  color: #82b308;
-  text-transform: capitalize;
-  font-size: 1.2rem;
-  transition: all 0.3s linear;
-  background-color: rgb(230, 230, 230) ;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-weight: 800;
-  cursor: pointer;
-}
-.right-nav:hover{
-  color : green;
-  background-color: rgb(217, 217, 217) ;
+.right-nav:hover {
+    color: green;
+    background-color: rgb(217, 217, 217);
 }

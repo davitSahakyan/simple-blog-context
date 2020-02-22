@@ -4,10 +4,8 @@ import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 class Navigation extends React.Component {
-
-
     render() {
-        console.log(this.props.isLoggedIn)
+        console.log(this.props.isLoggedIn);
         return (
             <div className="navigation-container">
                 <div className="navigation">
@@ -20,17 +18,18 @@ class Navigation extends React.Component {
                                 </span>
                             </Link>
                         </div>
-                        <Link to='/simple-blog/create'>
-                          <div className="create-post-btn">
-                             create post
-                           </div>
+                        <Link to="/simple-blog/create">
+                            <div className="create-post-btn">create post</div>
                         </Link>
-                        
                     </div>
                     {this.props.isLoggedIn ? (
                         <div
                             className="right-nav"
-                            onClick={() => this.props.history.push('/simple-blog/log-out-modal')}
+                            onClick={() =>
+                                this.props.history.push(
+                                    "/simple-blog/log-out-modal"
+                                )
+                            }
                         >
                             <div type="button">Log out</div>
                         </div>
