@@ -14,10 +14,10 @@ class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            isLoggedIn: false,
-            posts: [],
-            users: [],
-            postId: 0
+            isLoggedIn: localStorage.getItem("isLoggedIn") || false,
+            posts: JSON.parse(localStorage.getItem("posts") || "[]"),
+            users: JSON.parse(localStorage.getItem("users") || "[]"),
+            postId: localStorage.getItem("postId") || 0
         };
     }
     // Time
@@ -28,40 +28,48 @@ class App extends React.Component {
 
     handleAddPost = post => {
         let postWithId = { ...post, postId: this.state.postId + 1 };
+        const newPosts = [postWithId, ...this.state.posts];
         this.setState({
-            posts: [postWithId, ...this.state.posts],
+            posts: newPosts,
             postId: this.state.postId + 1
         });
+        localStorage.setItem("postId", this.state.postId);
+        localStorage.setItem("posts", JSON.stringify(newPosts));
     };
 
     changeRegistrationStatus = status => {
         this.setState({ isLoggedIn: status });
+        localStorage.setItem("isLoggedIn", this.state.isLoggedIn);
     };
 
     handleUserInfo = (username, password) => {
+        const users = [
+            ...this.state.users,
+            { username: username, password: password }
+        ];
         this.setState({
-            users: [
-                ...this.state.users,
-                { username: username, password: password }
-            ]
+            users: users
         });
+        localStorage.setItem("users", JSON.stringify(users));
     };
 
     // Handle function that adds new value to post with that id
     handleNewPostValue = (id, newPostValue) => {
+        const newPosts = this.state.posts.map(post => {
+            if (post.postId === id) {
+                console.log("yes");
+                return {
+                    ...post,
+                    postValue: newPostValue,
+                    edited: this.time()
+                };
+            } else {
+                return post;
+            }
+        });
+        localStorage.setItem("posts", JSON.stringify(newPosts));
         this.setState({
-            posts: this.state.posts.map(post => {
-                if (post.postId === id) {
-                    console.log("yes");
-                    return {
-                        ...post,
-                        postValue: newPostValue,
-                        edited: this.time()
-                    };
-                } else {
-                    return post;
-                }
-            })
+            posts: newPosts
         });
     };
 
@@ -75,6 +83,7 @@ class App extends React.Component {
     render() {
         const { isLoggedIn, posts, users } = this.state;
         console.log("POSTS---", posts);
+        console.log("LOCALSTORAGE---", localStorage);
         return (
             <div className="app">
                 <Navigation
