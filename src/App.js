@@ -75,9 +75,11 @@ class App extends React.Component {
 
     // Handle function that filteres posts and takes all posts accept deleted
     handlePostsFilter = id => {
+        const posts = this.state.posts.filter(post => post.postId !== id);
         this.setState({
-            posts: this.state.posts.filter(post => post.postId !== id)
+            posts: posts
         });
+        localStorage.setItem("posts", JSON.stringify(posts));
     };
 
     render() {

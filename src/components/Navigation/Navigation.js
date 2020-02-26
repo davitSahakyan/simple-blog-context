@@ -4,6 +4,11 @@ import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 class Navigation extends React.Component {
+    clearLocalStotage = () => {
+        localStorage.clear();
+        window.location.reload();
+    };
+
     render() {
         console.log(this.props.isLoggedIn);
         return (
@@ -22,6 +27,7 @@ class Navigation extends React.Component {
                             <div className="create-post-btn">create post</div>
                         </Link>
                     </div>
+                    <div onClick={this.clearLocalStotage}> Clear Memory </div>
                     {this.props.isLoggedIn ? (
                         <div
                             className="right-nav"
