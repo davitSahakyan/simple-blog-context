@@ -8,6 +8,7 @@ class LogIn extends React.Component {
         this.state = {
             username: "",
             password: "",
+            isOnline: false,
             errors: [],
             isLoggedIn: false
         };
@@ -50,15 +51,37 @@ class LogIn extends React.Component {
             this.showValidationError("password", "Password can't be empty");
         }
 
-        if (username && password) {
-            this.setState({ isLoggedIn: true }, () => this.giveToApp());
+        let registeredUser = this.props.users.find(
+            user => user.username === username && user.password === password
+        );
+
+        if (registeredUser) {
+            this.setState(
+                {
+                    isLoggedIn: true,
+                    isOnline: true
+                },
+                () => this.give(registeredUser)
+            );
+        } else if (username && password) {
+            this.setState({ isLoggedIn: true, isOnline: true }, () =>
+                this.createNewUser()
+            );
         }
     };
 
-    giveToApp = () => {
-        this.props.changeRegistrationStatus(this.state.isLoggedIn);
+    give = registeredUser => {
+        this.props.changeLoggedUserStatusToOnline(registeredUser);
         this.props.history.push("/simple-blog/create");
-        this.props.handleUserInfo(this.state.username, this.state.password);
+    };
+
+    createNewUser = () => {
+        this.props.history.push("/simple-blog/create");
+        this.props.handleUserInfo(
+            this.state.username,
+            this.state.password,
+            this.state.isOnline
+        );
     };
 
     render() {

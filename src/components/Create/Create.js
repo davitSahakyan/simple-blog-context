@@ -69,7 +69,6 @@ class Create extends React.Component {
 
     render() {
         const { classes } = this.props;
-        console.log(this.state.postId);
         return (
             <div className="input-global-container">
                 <form className={classes.root} noValidate autoComplete="off">

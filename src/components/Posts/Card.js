@@ -38,8 +38,6 @@ const useStyles = makeStyles(theme => ({
 
 function PostCard(props) {
     const classes = useStyles();
-    // const [expanded, setExpanded] = React.useState(false);
-    console.log("POSTS ---", props.posts);
 
     return props.posts.map((post, index) => {
         return (

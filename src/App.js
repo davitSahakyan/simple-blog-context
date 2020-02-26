@@ -37,20 +37,56 @@ class App extends React.Component {
         localStorage.setItem("posts", JSON.stringify(newPosts));
     };
 
-    changeRegistrationStatus = status => {
-        this.setState({ isLoggedIn: status });
+    changeLoginStatus = () => {
+        const isSomebodyLoggedIn = this.state.users.some(
+            user => user.isOnline === true
+        );
+
+        console.log("wefewf", isSomebodyLoggedIn);
+        this.setState(
+            {
+                isLoggedIn: !isSomebodyLoggedIn
+            },
+            () => localStorage.setItem("isLoggedIn", isSomebodyLoggedIn)
+        );
+    };
+
+    changeAllUsersStatusToOffline = () => {
+        this.setState({
+            users: this.state.users.map(user => ({ ...user, isOnline: false }))
+        });
         localStorage.setItem("isLoggedIn", this.state.isLoggedIn);
     };
 
-    handleUserInfo = (username, password) => {
-        const users = [
-            ...this.state.users,
-            { username: username, password: password }
-        ];
+    changeLoggedUserStatusToOnline = registeredUser => {
         this.setState({
-            users: users
+            users: this.state.users.map(user => {
+                if (user.username === registeredUser.username) {
+                    return { ...user, isOnline: true };
+                }
+                return user;
+            })
         });
-        localStorage.setItem("users", JSON.stringify(users));
+        localStorage.setItem("isLoggedIn", this.state.isLoggedIn);
+    };
+
+    handleUserInfo = (username, password, isOnline) => {
+        this.setState(
+            state => ({
+                isLoggedIn: true,
+                users: [
+                    ...state.users,
+                    {
+                        username: username,
+                        password: password,
+                        isOnline: isOnline
+                    }
+                ]
+            }),
+            () =>
+                localStorage.setItem("users", JSON.stringify(this.state.users)),
+            () => this.changeLoginStatus()
+        );
     };
 
     // Handle function that adds new value to post with that id
@@ -75,17 +111,21 @@ class App extends React.Component {
 
     // Handle function that filteres posts and takes all posts accept deleted
     handlePostsFilter = id => {
-        const posts = this.state.posts.filter(post => post.postId !== id);
-        this.setState({
-            posts: posts
-        });
-        localStorage.setItem("posts", JSON.stringify(posts));
+        this.setState(
+            state => ({
+                posts: state.posts.filter(post => post.postId !== id)
+            }),
+            () =>
+                localStorage.setItem("posts", JSON.stringify(this.state.posts))
+        );
     };
 
     render() {
         const { isLoggedIn, posts, users } = this.state;
         console.log("POSTS---", posts);
         console.log("LOCALSTORAGE---", localStorage);
+        console.log("USERS --", users);
+        console.log("IsLoggedIn --", this.state.isLoggedIn);
         return (
             <div className="app">
                 <Navigation
@@ -96,15 +136,17 @@ class App extends React.Component {
                 <Switch>
                     <Route path="/simple-blog/log-out-modal" exact>
                         <LogOutModal
-                            changeRegistrationStatus={
-                                this.changeRegistrationStatus
+                            changeAllUsersStatusToOffline={
+                                this.changeAllUsersStatusToOffline
                             }
+                            changeLoginStatus={this.changeLoginStatus}
                         />
                     </Route>
                     <Route path="/simple-blog/verify">
                         <LogIn
-                            changeRegistrationStatus={
-                                this.changeRegistrationStatus
+                            users={this.state.users}
+                            changeLoggedUserStatusToOnline={
+                                this.changeLoggedUserStatusToOnline
                             }
                             handleUserInfo={this.handleUserInfo}
                         />

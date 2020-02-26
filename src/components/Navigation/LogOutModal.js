@@ -41,8 +41,9 @@ function LogOutModal(props) {
     };
 
     const handleClick = () => {
-        props.changeRegistrationStatus(false);
+        props.changeAllUsersStatusToOffline();
         handleClose();
+        props.changeLoginStatus();
         props.history.push("/simple-blog/verify");
     };
 
