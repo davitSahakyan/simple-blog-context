@@ -51,7 +51,8 @@ class Create extends React.Component {
         this.props.handleAddPost({
             titleValue: this.state.titleValue,
             postValue: this.state.postValue,
-            username: this.props.users[this.props.users.length - 1].username,
+            username: this.props.users.find(user => user.isOnline === true)
+                .username,
             time: this.time()
         });
     };

@@ -59,13 +59,15 @@ class App extends React.Component {
     };
 
     changeLoggedUserStatusToOnline = registeredUser => {
+        console.log(registeredUser);
         this.setState({
             users: this.state.users.map(user => {
                 if (user.username === registeredUser.username) {
                     return { ...user, isOnline: true };
                 }
                 return user;
-            })
+            }),
+            isLoggedIn: true
         });
         localStorage.setItem("isLoggedIn", this.state.isLoggedIn);
     };
