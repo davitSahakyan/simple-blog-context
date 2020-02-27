@@ -52,8 +52,8 @@ class Edit extends React.Component {
         let loginedUser = this.props.users.find(user => user.isOnline === true);
 
         const buttonDisabled =
-            loginedUser.username !== this.username &&
-            loginedUser.password !== this.username;
+            loginedUser.username !== this.state.post.username &&
+            loginedUser.password !== this.state.post.password;
 
         this.setState({
             loginedUser: loginedUser,
@@ -69,7 +69,11 @@ class Edit extends React.Component {
 
     // On Post Value change
     onPostValueChange = e => {
-        this.setState({ newPostValue: e.target.value });
+        this.setState({
+            newPostValue: e.target.value
+                ? e.target.value
+                : this.state.post.postValue
+        });
     };
     // ON done icon click
     handleDoneIconClick = () => {
@@ -77,7 +81,7 @@ class Edit extends React.Component {
         this.props.history.push("/simple-blog/");
         this.props.handleNewPostValue(
             post.postId,
-            newPostValue,
+            newPostValue ? newPostValue : post.postValue,
             this.state.post.comments
         );
     };
