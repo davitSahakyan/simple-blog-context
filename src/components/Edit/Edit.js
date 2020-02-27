@@ -13,7 +13,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
 import { green, red } from "@material-ui/core/colors";
-import { withStyles } from "@material-ui/core";
+import { withStyles, Button } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 // CSS
 import "./Edit.css";
@@ -37,26 +37,25 @@ class Edit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            post: {},
+            post: this.props.posts.find(
+                post => `:${post.postId}` === this.props.match.params.id
+            ),
             isPostValueChanging: false,
             newPostValue: "",
             loginedUser: {},
-            buttonDisabled: false
+            buttonDisabled: false,
+            commentValue: ""
         };
     }
 
     componentDidMount() {
-        let post = this.props.posts.find(
-            post => `:${post.postId}` === this.props.match.params.id
-        );
         let loginedUser = this.props.users.find(user => user.isOnline === true);
 
         const buttonDisabled =
-            loginedUser.username !== post.username &&
-            loginedUser.password !== post.username;
+            loginedUser.username !== this.username &&
+            loginedUser.password !== this.username;
 
         this.setState({
-            post: post,
             loginedUser: loginedUser,
             buttonDisabled: buttonDisabled
         });
@@ -76,7 +75,11 @@ class Edit extends React.Component {
     handleDoneIconClick = () => {
         const { post, newPostValue } = this.state;
         this.props.history.push("/simple-blog/");
-        this.props.handleNewPostValue(post.postId, newPostValue);
+        this.props.handleNewPostValue(
+            post.postId,
+            newPostValue,
+            this.state.post.comments
+        );
     };
     // ON delete icon click
     handleDeleteIconClick = () => {
@@ -85,10 +88,32 @@ class Edit extends React.Component {
         this.props.handlePostsFilter(post.postId);
     };
 
+    // Change comment Value
+    commentValue = e => {
+        this.setState({
+            commentValue: e.target.value
+        });
+    };
+    // Add comment to post
+    addComment = () => {
+        console.log("post...............", this.state.post.comments);
+        const comments = [...this.state.post.comments, this.state.commentValue];
+        this.setState(
+            {
+                post: {
+                    ...this.state.post,
+                    comments: comments
+                }
+            },
+            console.log("POST ====== ", this.state.post)
+        );
+    };
+
     render() {
         const { classes } = this.props;
         const { post, isPostValueChanging, newPostValue } = this.state;
         console.log("POSTS --", this.props.posts);
+        console.log("post", this.state.post);
         console.log("Edit State --", this.state);
         console.log("CHANGED VALUE --", newPostValue);
         return (
@@ -156,6 +181,15 @@ class Edit extends React.Component {
                         </CardActions>
                     </div>
                 </div>
+                <section>
+                    <input type="text" onChange={this.commentValue} />
+                    <button onClick={this.addComment}>Comment</button>
+                    <div>
+                        {post.comments.map((comment, index) => {
+                            return <div key={index}>{comment}</div>;
+                        })}
+                    </div>
+                </section>
             </Card>
         );
     }

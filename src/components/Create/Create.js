@@ -53,7 +53,8 @@ class Create extends React.Component {
             postValue: this.state.postValue,
             username: this.props.users.find(user => user.isOnline === true)
                 .username,
-            time: this.time()
+            time: this.time(),
+            comments: ["fwewf"]
         });
     };
 
