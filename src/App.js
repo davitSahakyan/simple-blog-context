@@ -173,6 +173,7 @@ class App extends React.Component {
                     {/* EDIT PART */}
                     <Route path="/simple-blog/post/edit:id" exact>
                         <Edit
+                            users={users}
                             posts={posts}
                             handleNewPostValue={this.handleNewPostValue}
                             handlePostsFilter={this.handlePostsFilter}

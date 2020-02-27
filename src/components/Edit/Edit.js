@@ -39,16 +39,26 @@ class Edit extends React.Component {
         this.state = {
             post: {},
             isPostValueChanging: false,
-            newPostValue: ""
+            newPostValue: "",
+            loginedUser: {},
+            buttonDisabled: false
         };
     }
 
     componentDidMount() {
-        let newPost = this.props.posts.find(
+        let post = this.props.posts.find(
             post => `:${post.postId}` === this.props.match.params.id
         );
+        let loginedUser = this.props.users.find(user => user.isOnline === true);
+
+        const buttonDisabled =
+            loginedUser.username !== post.username &&
+            loginedUser.password !== post.username;
+
         this.setState({
-            post: newPost
+            post: post,
+            loginedUser: loginedUser,
+            buttonDisabled: buttonDisabled
         });
     }
     //  CHANGES IS-POST VALUE CHANGING
@@ -79,7 +89,7 @@ class Edit extends React.Component {
         const { classes } = this.props;
         const { post, isPostValueChanging, newPostValue } = this.state;
         console.log("POSTS --", this.props.posts);
-        console.log("POST --", post);
+        console.log("Edit State --", this.state);
         console.log("CHANGED VALUE --", newPostValue);
         return (
             <Card className={classes.root}>
@@ -120,6 +130,7 @@ class Edit extends React.Component {
                             <IconButton
                                 aria-label="share"
                                 onClick={this.editPostValue}
+                                disabled={this.state.buttonDisabled}
                             >
                                 <EditIcon style={{ color: green[500] }} />
                             </IconButton>
@@ -128,6 +139,7 @@ class Edit extends React.Component {
                             <IconButton
                                 aria-label="share"
                                 onClick={this.handleDeleteIconClick}
+                                disabled={this.state.buttonDisabled}
                             >
                                 <DeleteForeverIcon
                                     style={{ color: red[500] }}

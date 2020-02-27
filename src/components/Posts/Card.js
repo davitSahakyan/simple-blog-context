@@ -49,7 +49,7 @@ function PostCard(props) {
                                 aria-label="recipe"
                                 className={classes.avatar}
                             >
-                                {post.username}
+                                {post.username[0].toUpperCase()}
                             </Avatar>
                         }
                         title={`${post.titleValue} writed by ${post.username} `}
