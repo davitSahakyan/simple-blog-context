@@ -72,11 +72,11 @@ class LogIn extends React.Component {
 
     give = registeredUser => {
         this.props.changeLoggedUserStatusToOnline(registeredUser);
-        this.props.history.push("/simple-blog/create");
+        this.props.history.push("/simple-blog");
     };
 
     createNewUser = () => {
-        this.props.history.push("/simple-blog/create");
+        this.props.history.push("/simple-blog");
         this.props.handleUserInfo(
             this.state.username,
             this.state.password,

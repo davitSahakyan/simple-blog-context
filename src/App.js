@@ -165,10 +165,10 @@ class App extends React.Component {
                         )}
                     </Route>
                     <Route path="/simple-blog" exact>
-                        {posts[0] !== undefined ? (
+                        {!!posts.length ? (
                             <PostCard posts={posts} />
                         ) : (
-                            <Registration />
+                            <Registration isLoggedIn={isLoggedIn} />
                         )}
                     </Route>
                     {/* EDIT PART */}
