@@ -92,15 +92,14 @@ class App extends React.Component {
     };
 
     // Handle function that adds new value to post with that id
-    handleNewPostValue = (id, newPostValue, newComments) => {
+    handleNewPostValue = (id, newPostValue) => {
         const newPosts = this.state.posts.map(post => {
             if (post.postId === id) {
                 console.log("yes");
                 return {
                     ...post,
                     postValue: newPostValue,
-                    edited: this.time(),
-                    comments: newComments
+                    edited: this.time()
                 };
             } else {
                 return post;

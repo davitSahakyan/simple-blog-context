@@ -17,6 +17,8 @@ import { withStyles, Button } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 // CSS
 import "./Edit.css";
+// Components
+import CommentCreator from "../Comment/CommentCreator";
 
 const styles = theme => ({
     root: {
@@ -43,8 +45,7 @@ class Edit extends React.Component {
             isPostValueChanging: false,
             newPostValue: "",
             loginedUser: {},
-            buttonDisabled: false,
-            commentValue: ""
+            buttonDisabled: false
         };
     }
 
@@ -78,11 +79,9 @@ class Edit extends React.Component {
     // ON done icon click
     handleDoneIconClick = () => {
         const { post, newPostValue } = this.state;
-        this.props.history.push("/simple-blog/");
         this.props.handleNewPostValue(
             post.postId,
-            newPostValue ? newPostValue : post.postValue,
-            this.state.post.comments
+            newPostValue ? newPostValue : post.postValue
         );
     };
     // ON delete icon click
@@ -93,25 +92,25 @@ class Edit extends React.Component {
     };
 
     // Change comment Value
-    commentValue = e => {
-        this.setState({
-            commentValue: e.target.value
-        });
-    };
+    // commentValue = e => {
+    //     this.setState({
+    //         commentValue: e.target.value
+    //     });
+    // };
     // Add comment to post
-    addComment = () => {
-        console.log("post...............", this.state.post.comments);
-        const comments = [...this.state.post.comments, this.state.commentValue];
-        this.setState(
-            {
-                post: {
-                    ...this.state.post,
-                    comments: comments
-                }
-            },
-            console.log("POST ====== ", this.state.post)
-        );
-    };
+    // addComment = () => {
+    //     console.log("post...............", this.state.post.comments);
+    //     const comments = [...this.state.post.comments, this.state.commentValue];
+    //     this.setState(
+    //         {
+    //             post: {
+    //                 ...this.state.post,
+    //                 comments: comments
+    //             }
+    //         },
+    //         console.log("POST ====== ", this.state.post)
+    //     );
+    // };
 
     render() {
         const { classes } = this.props;
@@ -185,15 +184,7 @@ class Edit extends React.Component {
                         </CardActions>
                     </div>
                 </div>
-                <section>
-                    <input type="text" onChange={this.commentValue} />
-                    <button onClick={this.addComment}>Comment</button>
-                    <div>
-                        {post.comments.map((comment, index) => {
-                            return <div key={index}>{comment}</div>;
-                        })}
-                    </div>
-                </section>
+                <CommentCreator post={post} />
             </Card>
         );
     }
