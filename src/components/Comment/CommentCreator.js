@@ -1,5 +1,27 @@
 import React from "react";
 import Comment from "./Comment";
+// Router-dom
+import { withRouter } from "react-router-dom";
+// Matrial ui
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { withStyles } from "@material-ui/core";
+
+const styles = theme => ({
+    root: {
+        width: "80%",
+        display: "flex",
+        justifyContent: "center",
+        margin: "1rem auto",
+        "& > *": {
+            margin: theme.spacing(3),
+            width: "100%"
+        }
+    },
+    button: {
+        width: "auto"
+    }
+});
 
 class CommentCreator extends React.Component {
     constructor(props) {
@@ -11,6 +33,7 @@ class CommentCreator extends React.Component {
         };
     }
 
+    // Add Comment to Comments array
     addComment = () => {
         this.setState({
             comments: [
@@ -23,6 +46,7 @@ class CommentCreator extends React.Component {
         });
     };
 
+    // Comment Value onchange
     handleOnchange = e => {
         this.setState({
             commentValue: e.target.value
@@ -35,22 +59,40 @@ class CommentCreator extends React.Component {
     };
 
     render() {
+        const { classes } = this.props;
+        const { comments } = this.state;
         console.log("COMMENTS ---", this.state.comments);
         // console.log('POST WITH COMMENTS ---' , this.state.comments )
         return (
             <section>
-                <input type="text" onChange={this.handleOnchange} />
-                <button onClick={this.addComment}>Comment</button>
-                {/* <div>
-                    {this.props.post.comments.map((comment, index) => {
-                        return (
-                            <Comment post={this.props.post} comment={comment} />
-                        );
-                    })}
-                </div> */}
+                <form className={classes.root} noValidate autoComplete="off">
+                    <TextField
+                        className={classes.title}
+                        id="standard-basic"
+                        label="Write a title"
+                        onChange={this.handleOnchange}
+                    />
+                    <Button
+                        className={classes.button}
+                        variant="contained"
+                        color="primary"
+                        onClick={this.addComment}
+                    >
+                        Comment
+                    </Button>
+                </form>
+                {comments.map((item, index) => {
+                    return (
+                        <Comment
+                            post={this.props.post}
+                            item={item}
+                            index={index}
+                        />
+                    );
+                })}
             </section>
         );
     }
 }
 
-export default CommentCreator;
+export default withStyles(styles)(withRouter(CommentCreator));

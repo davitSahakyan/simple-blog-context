@@ -99,101 +99,86 @@ class Edit extends React.Component {
         this.props.handlePostsFilter(post.postId);
     };
 
-    // Change comment Value
-    // commentValue = e => {
-    //     this.setState({
-    //         commentValue: e.target.value
-    //     });
-    // };
-    // Add comment to post
-    // addComment = () => {
-    //     console.log("post...............", this.state.post.comments);
-    //     const comments = [...this.state.post.comments, this.state.commentValue];
-    //     this.setState(
-    //         {
-    //             post: {
-    //                 ...this.state.post,
-    //                 comments: comments
-    //             }
-    //         },
-    //         console.log("POST ====== ", this.state.post)
-    //     );
-    // };
-
     render() {
         const { classes } = this.props;
         const { post, isPostValueChanging, newPostValue } = this.state;
         console.log("POSTS --", this.props.posts);
         console.log("post", this.state.post);
         return (
-            <Card className={classes.root}>
-                <div className={classes.mainCard}>
-                    <CardHeader
-                        avatar={
-                            <Avatar
-                                aria-label="recipe"
-                                style={{ backgroundColor: green[300] }}
-                            >
-                                {post.username}
-                            </Avatar>
-                        }
-                        title={`${post.titleValue} writed by ${post.username} `}
-                        subheader={post.time}
-                    />
-                    <CardContent>
-                        {isPostValueChanging ? (
-                            <TextField
-                                id="outlined-basic"
-                                label="Write a post"
-                                variant="outlined"
-                                defaultValue={
-                                    newPostValue ? newPostValue : post.postValue
-                                }
-                                onChange={this.onPostValueChange}
-                            />
-                        ) : (
-                            <Typography
-                                variant="body2"
-                                color="textSecondary"
-                                component="p"
-                            >
-                                {newPostValue ? newPostValue : post.postValue}
-                            </Typography>
-                        )}
-                    </CardContent>
-                    <div className="edit-btn-container">
-                        <CardActions disableSpacing>
-                            <IconButton
-                                aria-label="share"
-                                onClick={this.editPostValue}
-                                disabled={this.state.buttonDisabled}
-                            >
-                                <EditIcon style={{ color: green[500] }} />
-                            </IconButton>
-                        </CardActions>
-                        <CardActions disableSpacing>
-                            <IconButton
-                                aria-label="share"
-                                onClick={this.handleDeleteIconClick}
-                                disabled={this.state.buttonDisabled}
-                            >
-                                <DeleteForeverIcon
-                                    style={{ color: red[500] }}
+            <>
+                <Card className={classes.root}>
+                    <div className={classes.mainCard}>
+                        <CardHeader
+                            avatar={
+                                <Avatar
+                                    aria-label="recipe"
+                                    style={{ backgroundColor: green[300] }}
+                                >
+                                    {post.username[0].toUpperCase()}
+                                </Avatar>
+                            }
+                            title={`${post.titleValue} writed by ${post.username} `}
+                            subheader={post.time}
+                        />
+                        <CardContent>
+                            {isPostValueChanging ? (
+                                <TextField
+                                    id="outlined-basic"
+                                    label="Write a post"
+                                    variant="outlined"
+                                    defaultValue={
+                                        newPostValue
+                                            ? newPostValue
+                                            : post.postValue
+                                    }
+                                    onChange={this.onPostValueChange}
                                 />
-                            </IconButton>
-                        </CardActions>
-                        <CardActions disableSpacing>
-                            <IconButton
-                                aria-label="share"
-                                onClick={this.handleDoneIconClick}
-                            >
-                                <DoneOutlineIcon color="primary" />
-                            </IconButton>
-                        </CardActions>
+                            ) : (
+                                <Typography
+                                    variant="body2"
+                                    color="textSecondary"
+                                    component="p"
+                                >
+                                    {newPostValue
+                                        ? newPostValue
+                                        : post.postValue}
+                                </Typography>
+                            )}
+                        </CardContent>
+                        <div className="edit-btn-container">
+                            <CardActions disableSpacing>
+                                <IconButton
+                                    aria-label="share"
+                                    onClick={this.editPostValue}
+                                    disabled={this.state.buttonDisabled}
+                                >
+                                    <EditIcon style={{ color: green[500] }} />
+                                </IconButton>
+                            </CardActions>
+                            <CardActions disableSpacing>
+                                <IconButton
+                                    aria-label="share"
+                                    onClick={this.handleDeleteIconClick}
+                                    disabled={this.state.buttonDisabled}
+                                >
+                                    <DeleteForeverIcon
+                                        style={{ color: red[500] }}
+                                    />
+                                </IconButton>
+                            </CardActions>
+                            <CardActions disableSpacing>
+                                <IconButton
+                                    aria-label="share"
+                                    onClick={this.handleDoneIconClick}
+                                >
+                                    <DoneOutlineIcon color="primary" />
+                                </IconButton>
+                            </CardActions>
+                        </div>
                     </div>
-                </div>
+                </Card>
                 <CommentCreator post={post} />
-            </Card>
+            </>
         );
     }
 }
