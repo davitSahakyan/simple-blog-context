@@ -64,8 +64,13 @@ class Edit extends React.Component {
     //  CHANGES IS-POST VALUE CHANGING
     editPostValue = () => {
         this.setState({
-            isPostValueChanging: true
+            isPostValueChanging: !this.state.isPostValueChanging
         });
+        const { post, newPostValue } = this.state;
+        this.props.handleNewPostValue(
+            post.postId,
+            newPostValue ? newPostValue : post.postValue
+        );
     };
 
     // On Post Value change
@@ -79,6 +84,9 @@ class Edit extends React.Component {
     // ON done icon click
     handleDoneIconClick = () => {
         const { post, newPostValue } = this.state;
+        this.setState({
+            isPostValueChanging: false
+        });
         this.props.handleNewPostValue(
             post.postId,
             newPostValue ? newPostValue : post.postValue
@@ -117,8 +125,6 @@ class Edit extends React.Component {
         const { post, isPostValueChanging, newPostValue } = this.state;
         console.log("POSTS --", this.props.posts);
         console.log("post", this.state.post);
-        console.log("Edit State --", this.state);
-        console.log("CHANGED VALUE --", newPostValue);
         return (
             <Card className={classes.root}>
                 <div className={classes.mainCard}>
@@ -140,7 +146,9 @@ class Edit extends React.Component {
                                 id="outlined-basic"
                                 label="Write a post"
                                 variant="outlined"
-                                defaultValue={post.postValue}
+                                defaultValue={
+                                    newPostValue ? newPostValue : post.postValue
+                                }
                                 onChange={this.onPostValueChange}
                             />
                         ) : (
@@ -149,7 +157,7 @@ class Edit extends React.Component {
                                 color="textSecondary"
                                 component="p"
                             >
-                                {post.postValue}
+                                {newPostValue ? newPostValue : post.postValue}
                             </Typography>
                         )}
                     </CardContent>

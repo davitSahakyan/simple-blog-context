@@ -10,7 +10,6 @@ class Navigation extends React.Component {
     };
 
     render() {
-        console.log(this.props.isLoggedIn);
         return (
             <div className="navigation-container">
                 <div className="navigation">

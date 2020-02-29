@@ -17,7 +17,7 @@ class App extends React.Component {
             isLoggedIn: localStorage.getItem("isLoggedIn") || false,
             posts: JSON.parse(localStorage.getItem("posts") || "[]"),
             users: JSON.parse(localStorage.getItem("users") || "[]"),
-            postId: localStorage.getItem("postId") || 0
+            postId: +localStorage.getItem("postId") || 0
         };
     }
     // Time
@@ -41,25 +41,26 @@ class App extends React.Component {
         const isSomebodyLoggedIn = this.state.users.some(
             user => user.isOnline === true
         );
-
-        console.log("wefewf", isSomebodyLoggedIn);
-        this.setState(
-            {
-                isLoggedIn: !isSomebodyLoggedIn
-            },
-            () => localStorage.setItem("isLoggedIn", isSomebodyLoggedIn)
-        );
+        console.log("isSomebodyLoggedIn", isSomebodyLoggedIn);
+        this.setState({
+            isLoggedIn: isSomebodyLoggedIn
+        });
+        localStorage.setItem("isLoggedIn", isSomebodyLoggedIn);
     };
 
     changeAllUsersStatusToOffline = () => {
-        this.setState({
-            users: this.state.users.map(user => ({ ...user, isOnline: false }))
-        });
-        localStorage.setItem("isLoggedIn", this.state.isLoggedIn);
+        this.setState(
+            {
+                users: this.state.users.map(user => ({
+                    ...user,
+                    isOnline: false
+                }))
+            },
+            () => this.changeLoginStatus()
+        );
     };
 
     changeLoggedUserStatusToOnline = registeredUser => {
-        console.log(registeredUser);
         this.setState({
             users: this.state.users.map(user => {
                 if (user.username === registeredUser.username) {
@@ -69,7 +70,6 @@ class App extends React.Component {
             }),
             isLoggedIn: true
         });
-        localStorage.setItem("isLoggedIn", this.state.isLoggedIn);
     };
 
     handleUserInfo = (username, password, isOnline) => {
@@ -86,8 +86,12 @@ class App extends React.Component {
                 ]
             }),
             () =>
-                localStorage.setItem("users", JSON.stringify(this.state.users)),
-            () => this.changeLoginStatus()
+                localStorage.setItem(
+                    "users",
+                    JSON.stringify(this.state.users),
+                    this.changeLoginStatus()
+                ),
+            localStorage.setItem("isLoggedIn", this.state.isLoggedIn)
         );
     };
 
@@ -125,9 +129,8 @@ class App extends React.Component {
     render() {
         const { isLoggedIn, posts, users } = this.state;
         console.log("POSTS---", posts);
+        console.log("App--State == ", this.state);
         console.log("LOCALSTORAGE---", localStorage);
-        console.log("USERS --", users);
-        console.log("IsLoggedIn --", this.state.isLoggedIn);
         return (
             <div className="app">
                 <Navigation
