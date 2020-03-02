@@ -20,7 +20,7 @@ import "../Edit/Edit.css";
 
 const styles = theme => ({
     root: {
-        width: "70%",
+        width: "60%",
         margin: "1rem auto",
         height: 150,
         backgroundColor: "#f2f2f2",
@@ -32,7 +32,8 @@ const styles = theme => ({
     mainCard: {
         width: "80%",
         margin: "auto",
-        display: "flex"
+        display: "flex",
+        justifyContent: "space-between"
     }
 });
 

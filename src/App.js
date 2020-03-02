@@ -14,7 +14,7 @@ class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            isLoggedIn: localStorage.getItem("isLoggedIn") || false,
+            isLoggedIn: !!localStorage.getItem("isLoggedIn") || false,
             posts: JSON.parse(localStorage.getItem("posts") || "[]"),
             users: JSON.parse(localStorage.getItem("users") || "[]"),
             postId: +localStorage.getItem("postId") || 0
@@ -38,6 +38,7 @@ class App extends React.Component {
     };
 
     changeLoginStatus = () => {
+        localStorage.setItem("users", JSON.stringify(this.state.users));
         const isSomebodyLoggedIn = this.state.users.some(
             user => user.isOnline === true
         );
@@ -168,7 +169,10 @@ class App extends React.Component {
                     </Route>
                     <Route path="/simple-blog" exact>
                         {!!posts.length ? (
-                            <PostCard posts={posts} />
+                            <PostCard
+                                posts={posts}
+                                isLoggedIn={this.state.isLoggedIn}
+                            />
                         ) : (
                             <Registration isLoggedIn={isLoggedIn} />
                         )}

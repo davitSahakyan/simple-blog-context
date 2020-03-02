@@ -27,7 +27,7 @@ class Navigation extends React.Component {
                         </Link>
                     </div>
                     <div onClick={this.clearLocalStotage}> Clear Memory </div>
-                    {this.props.isLoggedIn ? (
+                    {this.props.isLoggedIn === true ? (
                         <div
                             className="right-nav"
                             onClick={() =>

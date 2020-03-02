@@ -72,6 +72,7 @@ function PostCard(props) {
                         <IconButton
                             aria-label="share"
                             color="primary"
+                            disabled={props.isLoggedIn === false}
                             onClick={() =>
                                 props.history.push(
                                     `/simple-blog/post/edit:${post.postId}`
