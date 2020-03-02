@@ -127,11 +127,29 @@ class App extends React.Component {
         );
     };
 
+    // Add Comments to its post
+    handleAddCommentToPost = (postId, comment) => {
+        const { posts } = this.state;
+        let newPosts = posts.map(post => {
+            if (post.postId == postId) {
+                post.comments = [...post.comments, comment];
+            }
+            return post;
+        });
+        this.setState({
+            posts: newPosts
+        });
+        localStorage.setItem("posts", JSON.stringify(newPosts));
+    };
+
     render() {
         const { isLoggedIn, posts, users } = this.state;
         console.log("POSTS---", posts);
         console.log("App--State == ", this.state);
         console.log("LOCALSTORAGE---", localStorage);
+
+        let loginedUser = users.filter(user => user.isOnline === true);
+
         return (
             <div className="app">
                 <Navigation
@@ -184,6 +202,8 @@ class App extends React.Component {
                             posts={posts}
                             handleNewPostValue={this.handleNewPostValue}
                             handlePostsFilter={this.handlePostsFilter}
+                            loginedUser={loginedUser}
+                            handleAddCommentToPost={this.handleAddCommentToPost}
                         />
                     </Route>
                 </Switch>

@@ -38,10 +38,20 @@ const styles = theme => ({
 });
 
 class Comment extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false
+        };
+    }
+
     render() {
-        const { classes, post, item, index } = this.props;
+        const { classes, post, item, loginedUser } = this.props;
+        console.log(item);
+        console.log("loginedUser", this.props.loginedUser);
+
         return (
-            <Card className={classes.root} key={index}>
+            <Card className={classes.root}>
                 <div className={classes.mainCard}>
                     <div>
                         <CardHeader
@@ -50,10 +60,10 @@ class Comment extends React.Component {
                                     aria-label="recipe"
                                     style={{ backgroundColor: green[300] }}
                                 >
-                                    {post.username[0].toUpperCase()}
+                                    {item.username[0].toUpperCase()}
                                 </Avatar>
                             }
-                            title={`${item.commentTime} writed by ${post.username} `}
+                            title={`${item.commentTime} writed by ${item.username} `}
                         />
                         <CardContent>
                             {false ? (

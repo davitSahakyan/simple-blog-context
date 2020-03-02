@@ -27,7 +27,7 @@ class CommentCreator extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            comments: [],
+            comments: this.props.post.comments,
             commentValue: "",
             commentTime: this.time
         };
@@ -35,15 +35,22 @@ class CommentCreator extends React.Component {
 
     // Add Comment to Comments array
     addComment = () => {
-        this.setState({
-            comments: [
-                ...this.state.comments,
-                {
-                    commentValue: this.state.commentValue,
-                    commentTime: this.state.commentTime()
-                }
-            ]
-        });
+        let comment = {
+            commentValue: this.state.commentValue,
+            commentTime: this.state.commentTime(),
+            username: this.props.loginedUser[0].username,
+            password: this.props.loginedUser[0].password
+        };
+        this.setState(
+            {
+                comments: [...this.state.comments, comment]
+            },
+            () => this.addCommentToPostst(comment)
+        );
+    };
+
+    addCommentToPostst = comment => {
+        this.props.handleAddCommentToPost(this.props.post.postId, comment);
     };
 
     // Comment Value onchange
@@ -62,14 +69,17 @@ class CommentCreator extends React.Component {
         const { classes } = this.props;
         const { comments } = this.state;
         console.log("COMMENTS ---", this.state.comments);
+        console.log("loginedUser", this.props.loginedUser);
+
         // console.log('POST WITH COMMENTS ---' , this.state.comments )
         return (
             <section>
+                <h2 style={{ marginLeft: "4rem" }}>Comment</h2>
                 <form className={classes.root} noValidate autoComplete="off">
                     <TextField
                         className={classes.title}
                         id="standard-basic"
-                        label="Write a title"
+                        label="Write a Comment"
                         onChange={this.handleOnchange}
                     />
                     <Button
@@ -86,7 +96,8 @@ class CommentCreator extends React.Component {
                         <Comment
                             post={this.props.post}
                             item={item}
-                            index={index}
+                            key={index}
+                            loginedUser={this.props.loginedUser}
                         />
                     );
                 })}
