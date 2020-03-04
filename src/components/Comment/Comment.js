@@ -47,8 +47,6 @@ class Comment extends React.Component {
 
     render() {
         const { classes, post, item, loginedUser } = this.props;
-        console.log(item);
-        console.log("loginedUser", this.props.loginedUser);
 
         return (
             <Card className={classes.root}>

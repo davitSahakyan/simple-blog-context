@@ -8,7 +8,7 @@ import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { withRouter } from "react-router-dom";
-import "./Card.css";
+import "./Posts.css";
 // components
 
 const useStyles = makeStyles(theme => ({
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function PostCard(props) {
+function Posts(props) {
     const classes = useStyles();
 
     return props.posts.map((post, index) => {
@@ -88,4 +88,4 @@ function PostCard(props) {
     });
 }
 
-export default withRouter(PostCard);
+export default withRouter(Posts);

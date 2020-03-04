@@ -68,8 +68,6 @@ class CommentCreator extends React.Component {
     render() {
         const { classes } = this.props;
         const { comments } = this.state;
-        console.log("COMMENTS ---", this.state.comments);
-        console.log("loginedUser", this.props.loginedUser);
 
         // console.log('POST WITH COMMENTS ---' , this.state.comments )
         return (

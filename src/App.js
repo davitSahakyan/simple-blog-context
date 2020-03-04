@@ -5,7 +5,7 @@ import Registration from "./components/Registration/Registration";
 import Navigation from "./components/Navigation/Navigation";
 import LogIn from "./components/LogIn/LogIn";
 import Create from "./components/Create/Create";
-import PostCard from "./components/Posts/Card";
+import Posts from "./components/Posts/Posts";
 import Edit from "./components/Edit/Edit";
 
 import LogOutModal from "./components/Navigation/LogOutModal";
@@ -14,7 +14,7 @@ class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            isLoggedIn: !!localStorage.getItem("isLoggedIn") || false,
+            isLoggedIn: localStorage.getItem("isLoggedIn") || false,
             posts: JSON.parse(localStorage.getItem("posts") || "[]"),
             users: JSON.parse(localStorage.getItem("users") || "[]"),
             postId: +localStorage.getItem("postId") || 0
@@ -42,7 +42,6 @@ class App extends React.Component {
         const isSomebodyLoggedIn = this.state.users.some(
             user => user.isOnline === true
         );
-        console.log("isSomebodyLoggedIn", isSomebodyLoggedIn);
         this.setState({
             isLoggedIn: isSomebodyLoggedIn
         });
@@ -144,9 +143,6 @@ class App extends React.Component {
 
     render() {
         const { isLoggedIn, posts, users } = this.state;
-        console.log("POSTS---", posts);
-        console.log("App--State == ", this.state);
-        console.log("LOCALSTORAGE---", localStorage);
 
         let loginedUser = users.filter(user => user.isOnline === true);
 
@@ -187,7 +183,7 @@ class App extends React.Component {
                     </Route>
                     <Route path="/simple-blog" exact>
                         {!!posts.length ? (
-                            <PostCard
+                            <Posts
                                 posts={posts}
                                 isLoggedIn={this.state.isLoggedIn}
                             />

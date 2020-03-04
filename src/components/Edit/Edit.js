@@ -102,9 +102,7 @@ class Edit extends React.Component {
     render() {
         const { classes } = this.props;
         const { post, isPostValueChanging, newPostValue } = this.state;
-        console.log("POSTS --", this.props.posts);
-        console.log("post", this.state.post);
-        console.log("loginedUser", this.props.loginedUser);
+
         return (
             <>
                 <Card className={classes.root}>
