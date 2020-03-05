@@ -39,18 +39,34 @@ class CommentCreator extends React.Component {
             commentValue: this.state.commentValue,
             commentTime: this.state.commentTime(),
             username: this.props.loginedUser[0].username,
-            password: this.props.loginedUser[0].password
+            password: this.props.loginedUser[0].password,
+            id: this.uniqueId()
         };
         this.setState(
             {
                 comments: [...this.state.comments, comment]
             },
-            () => this.addCommentToPostst(comment)
+            () => this.addCommentToPostst(this.state.comments)
         );
     };
 
-    addCommentToPostst = comment => {
-        this.props.handleAddCommentToPost(this.props.post.postId, comment);
+    addCommentToPostst = comments => {
+        console.log(" COMMENTS ", comments);
+        this.props.handleAddCommentToPost(this.props.post.postId, comments);
+    };
+
+    changeCommentValue = (id, commentValue) => {
+        const chagedComments = this.state.comments.map(item => {
+            if (item.id === id) {
+                return { ...item, commentValue: commentValue };
+            }
+            return item;
+        });
+
+        this.props.handleAddCommentToPost(
+            this.props.post.postId,
+            chagedComments
+        );
     };
 
     // Comment Value onchange
@@ -65,11 +81,22 @@ class CommentCreator extends React.Component {
         return date.toLocaleTimeString();
     };
 
+    uniqueId = () => {
+        // Math.random should be unique because of its seeding algorithm.
+        // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+        // after the decimal.
+        return (
+            "_" +
+            Math.random()
+                .toString(36)
+                .substr(2, 9)
+        );
+    };
+
     render() {
         const { classes } = this.props;
         const { comments } = this.state;
-
-        // console.log('POST WITH COMMENTS ---' , this.state.comments )
+        console.log("POST WITH COMMENTS ---", this.state.comments);
         return (
             <section>
                 <h2 style={{ marginLeft: "4rem" }}>Comment</h2>
@@ -94,8 +121,9 @@ class CommentCreator extends React.Component {
                         <Comment
                             post={this.props.post}
                             item={item}
-                            key={index}
+                            key={item.id}
                             loginedUser={this.props.loginedUser}
+                            changeCommentValue={this.changeCommentValue}
                         />
                     );
                 })}

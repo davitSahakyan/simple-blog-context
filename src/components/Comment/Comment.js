@@ -41,13 +41,33 @@ class Comment extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: false
+            isCommentEditing: false,
+            commentValue: ""
         };
     }
 
+    changeEditStatus = () => {
+        this.setState(
+            {
+                isCommentEditing: !this.state.isCommentEditing
+            },
+            this.props.changeCommentValue(
+                this.props.item.id,
+                this.state.commentValue
+            )
+        );
+    };
+
+    handleCommentOnChange = e => {
+        this.setState({
+            commentValue: e.target.value
+        });
+    };
+
     render() {
         const { classes, post, item, loginedUser } = this.props;
-
+        const { isCommentEditing, commentValue } = this.state;
+        console.log("new commentValue --", commentValue);
         return (
             <Card className={classes.root}>
                 <div className={classes.mainCard}>
@@ -64,13 +84,13 @@ class Comment extends React.Component {
                             title={`${item.commentTime} writed by ${item.username} `}
                         />
                         <CardContent>
-                            {false ? (
+                            {isCommentEditing ? (
                                 <TextField
                                     id="outlined-basic"
                                     label="Write a post"
                                     variant="outlined"
-                                    defaultValue={post.postValue}
-                                    onChange={this.onPostValueChange}
+                                    defaultValue={item.commentValue}
+                                    onChange={this.handleCommentOnChange}
                                 />
                             ) : (
                                 <Typography
@@ -78,7 +98,9 @@ class Comment extends React.Component {
                                     color="textSecondary"
                                     component="p"
                                 >
-                                    {item.commentValue}
+                                    {commentValue
+                                        ? commentValue
+                                        : item.commentValue}
                                 </Typography>
                             )}
                         </CardContent>
@@ -87,7 +109,7 @@ class Comment extends React.Component {
                         <CardActions disableSpacing>
                             <IconButton
                                 aria-label="share"
-                                // onClick={this.editPostValue}
+                                onClick={this.changeEditStatus}
                                 // disabled={this.state.buttonDisabled}
                             >
                                 <EditIcon style={{ color: green[500] }} />

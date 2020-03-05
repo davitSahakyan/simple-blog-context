@@ -127,11 +127,11 @@ class App extends React.Component {
     };
 
     // Add Comments to its post
-    handleAddCommentToPost = (postId, comment) => {
+    handleAddCommentToPost = (postId, comments) => {
         const { posts } = this.state;
         let newPosts = posts.map(post => {
             if (post.postId == postId) {
-                post.comments = [...post.comments, comment];
+                post.comments = comments;
             }
             return post;
         });
