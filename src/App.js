@@ -172,7 +172,7 @@ class App extends React.Component {
                         />
                     </Route>
                     <Route path="/simple-blog/create">
-                        {isLoggedIn ? (
+                        {isLoggedIn === true || isLoggedIn === "true" ? (
                             <Create
                                 handleAddPost={this.handleAddPost}
                                 users={users}
