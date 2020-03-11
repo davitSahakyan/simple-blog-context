@@ -96,7 +96,7 @@ class CommentCreator extends React.Component {
     render() {
         const { classes } = this.props;
         const { comments } = this.state;
-        console.log("POST WITH COMMENTS ---", this.state.comments);
+
         return (
             <section>
                 <h2 style={{ marginLeft: "4rem" }}>Comment</h2>

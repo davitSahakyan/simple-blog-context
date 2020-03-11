@@ -60,7 +60,6 @@ class Edit extends React.Component {
             loginedUser: loginedUser,
             buttonDisabled: buttonDisabled
         });
-        console.log("buttonDisabled", buttonDisabled);
     }
     //  CHANGES IS-POST VALUE CHANGING
     editPostValue = () => {

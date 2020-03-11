@@ -149,8 +149,6 @@ class App extends React.Component {
 
         let loginedUser = users.filter(user => user.isOnline === true);
 
-        console.log(typeof isLoggedIn);
-
         return (
             <div className="app">
                 <Navigation

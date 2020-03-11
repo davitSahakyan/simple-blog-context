@@ -65,9 +65,9 @@ class Comment extends React.Component {
     };
 
     render() {
-        const { classes, post, item, loginedUser } = this.props;
+        const { classes, item } = this.props;
         const { isCommentEditing, commentValue } = this.state;
-        console.log("new commentValue --", commentValue);
+
         return (
             <Card className={classes.root}>
                 <div className={classes.mainCard}>
