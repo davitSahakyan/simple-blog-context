@@ -81,7 +81,7 @@ class Comment extends React.Component {
                                     {item.username[0].toUpperCase()}
                                 </Avatar>
                             }
-                            title={`${item.commentTime} writed by ${item.username} `}
+                            title={`${item.commentTime} written by ${item.username} `}
                         />
                         <CardContent>
                             {isCommentEditing ? (

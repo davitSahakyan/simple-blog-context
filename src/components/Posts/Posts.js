@@ -52,7 +52,7 @@ function Posts(props) {
                                 {post.username[0].toUpperCase()}
                             </Avatar>
                         }
-                        title={`${post.titleValue} writed by ${post.username} `}
+                        title={`${post.titleValue} written by ${post.username} `}
                         subheader={
                             post.edited
                                 ? `${post.time} edited at ${post.edited}`

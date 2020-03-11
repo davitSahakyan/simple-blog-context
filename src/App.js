@@ -14,10 +14,10 @@ class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            isLoggedIn: localStorage.getItem("isLoggedIn") || false,
+            isLoggedIn: JSON.parse(localStorage.getItem("isLoggedIn")) || false,
             posts: JSON.parse(localStorage.getItem("posts") || "[]"),
             users: JSON.parse(localStorage.getItem("users") || "[]"),
-            postId: +localStorage.getItem("postId") || 0
+            postId: JSON.parse(localStorage.getItem("postId")) || 0
         };
     }
     // Time
@@ -33,7 +33,7 @@ class App extends React.Component {
             posts: newPosts,
             postId: this.state.postId + 1
         });
-        localStorage.setItem("postId", this.state.postId);
+        localStorage.setItem("postId", JSON.stringify(this.state.postId + 1));
         localStorage.setItem("posts", JSON.stringify(newPosts));
     };
 
@@ -45,7 +45,7 @@ class App extends React.Component {
         this.setState({
             isLoggedIn: isSomebodyLoggedIn
         });
-        localStorage.setItem("isLoggedIn", isSomebodyLoggedIn);
+        localStorage.setItem("isLoggedIn", JSON.stringify(isSomebodyLoggedIn));
     };
 
     changeAllUsersStatusToOffline = () => {
@@ -91,7 +91,10 @@ class App extends React.Component {
                     JSON.stringify(this.state.users),
                     this.changeLoginStatus()
                 ),
-            localStorage.setItem("isLoggedIn", this.state.isLoggedIn)
+            localStorage.setItem(
+                "isLoggedIn",
+                JSON.stringify(this.state.isLoggedIn)
+            )
         );
     };
 
@@ -146,10 +149,12 @@ class App extends React.Component {
 
         let loginedUser = users.filter(user => user.isOnline === true);
 
+        console.log(typeof isLoggedIn);
+
         return (
             <div className="app">
                 <Navigation
-                    isLoggedIn={this.state.isLoggedIn}
+                    isLoggedIn={isLoggedIn}
                     changeRegistrationStatus={this.changeRegistrationStatus}
                 />
 
@@ -172,7 +177,7 @@ class App extends React.Component {
                         />
                     </Route>
                     <Route path="/simple-blog/create">
-                        {isLoggedIn === true || isLoggedIn === "true" ? (
+                        {isLoggedIn ? (
                             <Create
                                 handleAddPost={this.handleAddPost}
                                 users={users}
@@ -183,10 +188,7 @@ class App extends React.Component {
                     </Route>
                     <Route path="/simple-blog" exact>
                         {!!posts.length ? (
-                            <Posts
-                                posts={posts}
-                                isLoggedIn={this.state.isLoggedIn}
-                            />
+                            <Posts posts={posts} isLoggedIn={isLoggedIn} />
                         ) : (
                             <Registration isLoggedIn={isLoggedIn} />
                         )}
