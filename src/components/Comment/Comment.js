@@ -64,8 +64,20 @@ class Comment extends React.Component {
         });
     };
 
+    checkIfIsLoggedIn = () => {
+        const { item, loginedUser } = this.props;
+        if (
+            loginedUser[0].username === item.username &&
+            loginedUser[0].password === item.password
+        ) {
+            return false;
+        } else {
+            return true;
+        }
+    };
+
     render() {
-        const { classes, item } = this.props;
+        const { classes, item, deleteComment } = this.props;
         const { isCommentEditing, commentValue } = this.state;
 
         return (
@@ -89,7 +101,11 @@ class Comment extends React.Component {
                                     id="outlined-basic"
                                     label="Write a post"
                                     variant="outlined"
-                                    defaultValue={item.commentValue}
+                                    defaultValue={
+                                        commentValue
+                                            ? commentValue
+                                            : item.commentValue
+                                    }
                                     onChange={this.handleCommentOnChange}
                                 />
                             ) : (
@@ -110,7 +126,7 @@ class Comment extends React.Component {
                             <IconButton
                                 aria-label="share"
                                 onClick={this.changeEditStatus}
-                                // disabled={this.state.buttonDisabled}
+                                disabled={this.checkIfIsLoggedIn()}
                             >
                                 <EditIcon style={{ color: green[500] }} />
                             </IconButton>
@@ -118,7 +134,10 @@ class Comment extends React.Component {
                         <CardActions disableSpacing>
                             <IconButton
                                 aria-label="share"
-                                // onClick={this.handleDeleteIconClick}
+                                disabled={this.checkIfIsLoggedIn()}
+                                onClick={() =>
+                                    deleteComment(this.props.item.id)
+                                }
                             >
                                 <DeleteForeverIcon
                                     style={{ color: red[500] }}

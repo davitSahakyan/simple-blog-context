@@ -102,7 +102,6 @@ class App extends React.Component {
     handleNewPostValue = (id, newPostValue) => {
         const newPosts = this.state.posts.map(post => {
             if (post.postId === id) {
-                console.log("yes");
                 return {
                     ...post,
                     postValue: newPostValue,

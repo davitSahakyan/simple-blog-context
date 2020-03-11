@@ -51,7 +51,6 @@ class CommentCreator extends React.Component {
     };
 
     addCommentToPostst = comments => {
-        console.log(" COMMENTS ", comments);
         this.props.handleAddCommentToPost(this.props.post.postId, comments);
     };
 
@@ -93,9 +92,19 @@ class CommentCreator extends React.Component {
         );
     };
 
+    deleteComment = id => {
+        const filteredComments = this.state.comments.filter(
+            item => item.id !== id
+        );
+
+        this.setState({
+            comments: filteredComments
+        });
+    };
+
     render() {
         const { classes } = this.props;
-        const { comments } = this.state;
+        const { comments, commentValue } = this.state;
 
         return (
             <section>
@@ -111,6 +120,7 @@ class CommentCreator extends React.Component {
                         className={classes.button}
                         variant="contained"
                         color="primary"
+                        disabled={!commentValue}
                         onClick={this.addComment}
                     >
                         Comment
@@ -124,6 +134,7 @@ class CommentCreator extends React.Component {
                             key={item.id}
                             loginedUser={this.props.loginedUser}
                             changeCommentValue={this.changeCommentValue}
+                            deleteComment={this.deleteComment}
                         />
                     );
                 })}
