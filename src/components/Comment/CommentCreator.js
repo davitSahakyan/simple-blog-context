@@ -1,146 +1,128 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Comment from "./Comment";
 // Router-dom
 import { withRouter } from "react-router-dom";
 // Matrial ui
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { withStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-const styles = theme => ({
+const useStyles = makeStyles({
     root: {
         width: "80%",
         display: "flex",
         justifyContent: "center",
         margin: "1rem auto",
         "& > *": {
-            margin: theme.spacing(3),
-            width: "100%"
-        }
+            margin: "15px",
+            width: "100%",
+        },
     },
     button: {
-        width: "auto"
-    }
+        width: "auto",
+    },
 });
 
-class CommentCreator extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            comments: this.props.post.comments,
-            commentValue: "",
-            commentTime: this.time
-        };
-    }
+const CommentCreator = (props) => {
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         comments: this.props.post.comments,
+    //         commentValue: "",
+    //         commentTime: this.time,
+    //     };
+    // }
+    const [comments, setComments] = useState(props.post.comments);
+    const [commentValue, setCommentValue] = useState("");
 
-    // Add Comment to Comments array
-    addComment = () => {
+    useEffect(() => {
+        addCommentToPostst(comments);
+    }, [comments]);
+
+    const addComment = () => {
         let comment = {
-            commentValue: this.state.commentValue,
-            commentTime: this.state.commentTime(),
-            username: this.props.loginedUser[0].username,
-            password: this.props.loginedUser[0].password,
-            id: this.uniqueId()
+            commentValue: commentValue,
+            commentTime: time(),
+            username: props.loginedUser[0].username,
+            password: props.loginedUser[0].password,
+            id: uniqueId(),
         };
-        this.setState(
-            {
-                comments: [...this.state.comments, comment]
-            },
-            () => this.addCommentToPostst(this.state.comments)
-        );
+        setComments([...comments, comment]);
     };
 
-    addCommentToPostst = comments => {
-        this.props.handleAddCommentToPost(this.props.post.postId, comments);
+    const addCommentToPostst = (comments) => {
+        props.handleAddCommentToPost(props.post.postId, comments);
     };
 
-    changeCommentValue = (id, commentValue) => {
-        const chagedComments = this.state.comments.map(item => {
+    const changeCommentValue = (id, commentValue) => {
+        const chagedComments = comments.map((item) => {
             if (item.id === id) {
                 return { ...item, commentValue: commentValue };
             }
             return item;
         });
 
-        this.props.handleAddCommentToPost(
-            this.props.post.postId,
-            chagedComments
-        );
+        props.handleAddCommentToPost(props.post.postId, chagedComments);
     };
 
-    // Comment Value onchange
-    handleOnchange = e => {
-        this.setState({
-            commentValue: e.target.value
-        });
+    const handleOnchange = (e) => {
+        setCommentValue(e.target.value);
     };
 
-    time = () => {
+    const time = () => {
         let date = new Date();
         return date.toLocaleTimeString();
     };
 
-    uniqueId = () => {
+    const uniqueId = () => {
         // Math.random should be unique because of its seeding algorithm.
         // Convert it to base 36 (numbers + letters), and grab the first 9 characters
         // after the decimal.
-        return (
-            "_" +
-            Math.random()
-                .toString(36)
-                .substr(2, 9)
-        );
+        return "_" + Math.random().toString(36).substr(2, 9);
     };
 
-    deleteComment = id => {
-        const filteredComments = this.state.comments.filter(
-            item => item.id !== id
-        );
+    const deleteComment = (id) => {
+        const filteredComments = comments.filter((item) => item.id !== id);
 
-        this.setState({
-            comments: filteredComments
-        });
+        setComments(filteredComments);
     };
 
-    render() {
-        const { classes } = this.props;
-        const { comments, commentValue } = this.state;
+    const classes = useStyles();
 
-        return (
-            <section>
-                <h2 style={{ marginLeft: "4rem" }}>Comment</h2>
-                <form className={classes.root} noValidate autoComplete="off">
-                    <TextField
-                        className={classes.title}
-                        id="standard-basic"
-                        label="Write a Comment"
-                        onChange={this.handleOnchange}
+    return (
+        <section>
+            <h2 style={{ marginLeft: "4rem" }}>Comment</h2>
+            <form className={classes.root} noValidate autoComplete="off">
+                <TextField
+                    className={classes.title}
+                    id="standard-basic"
+                    label="Write a Comment"
+                    onChange={handleOnchange}
+                />
+                <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="primary"
+                    disabled={!commentValue}
+                    onClick={addComment}
+                >
+                    Comment
+                </Button>
+            </form>
+            {comments.map((item, index) => {
+                return (
+                    <Comment
+                        post={props.post}
+                        item={item}
+                        key={item.id}
+                        loginedUser={props.loginedUser}
+                        changeCommentValue={changeCommentValue}
+                        deleteComment={deleteComment}
                     />
-                    <Button
-                        className={classes.button}
-                        variant="contained"
-                        color="primary"
-                        disabled={!commentValue}
-                        onClick={this.addComment}
-                    >
-                        Comment
-                    </Button>
-                </form>
-                {comments.map((item, index) => {
-                    return (
-                        <Comment
-                            post={this.props.post}
-                            item={item}
-                            key={item.id}
-                            loginedUser={this.props.loginedUser}
-                            changeCommentValue={this.changeCommentValue}
-                            deleteComment={this.deleteComment}
-                        />
-                    );
-                })}
-            </section>
-        );
-    }
-}
+                );
+            })}
+        </section>
+    );
+};
 
-export default withStyles(styles)(withRouter(CommentCreator));
+export default withRouter(CommentCreator);
