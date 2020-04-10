@@ -12,13 +12,13 @@ import Typography from "@material-ui/core/Typography";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { green, red } from "@material-ui/core/colors";
-import { withStyles, Button } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 // CSS
 import "../Edit/Edit.css";
 // Components
 
-const styles = theme => ({
+const styles = (theme) => ({
     root: {
         width: "60%",
         margin: "1rem auto",
@@ -26,15 +26,15 @@ const styles = theme => ({
         backgroundColor: "#f2f2f2",
         "& > *": {
             margin: theme.spacing(1),
-            width: "100%"
-        }
+            width: "100%",
+        },
     },
     mainCard: {
         width: "80%",
         margin: "auto",
         display: "flex",
-        justifyContent: "space-between"
-    }
+        justifyContent: "space-between",
+    },
 });
 
 class Comment extends React.Component {
@@ -42,14 +42,14 @@ class Comment extends React.Component {
         super(props);
         this.state = {
             isCommentEditing: false,
-            commentValue: ""
+            commentValue: "",
         };
     }
 
     changeEditStatus = () => {
         this.setState(
             {
-                isCommentEditing: !this.state.isCommentEditing
+                isCommentEditing: !this.state.isCommentEditing,
             },
             this.props.changeCommentValue(
                 this.props.item.id,
@@ -58,9 +58,9 @@ class Comment extends React.Component {
         );
     };
 
-    handleCommentOnChange = e => {
+    handleCommentOnChange = (e) => {
         this.setState({
-            commentValue: e.target.value
+            commentValue: e.target.value,
         });
     };
 

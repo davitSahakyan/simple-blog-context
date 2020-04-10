@@ -1,105 +1,92 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Main.css";
 // import Comment from '../Comment/Comment'
 import { withRouter } from "react-router-dom";
 // Material ui
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { withStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-const styles = theme => ({
+const useStyles = makeStyles({
     root: {
         width: "80%",
         "& > *": {
-            margin: theme.spacing(1),
-            width: "100%"
-        }
-    }
+            margin: 5,
+            width: "100%",
+        },
+    },
 });
 
-class Create extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isShowingGreeting: true,
-            titleValue: "",
-            postValue: "",
-            postId: 0
-        };
-    }
+const Create = (props) => {
+    const [isShowingGreeting, setIsShowingGreeting] = useState(true);
+    const [titleValue, setTitleValue] = useState("");
+    const [postValue, setPostValue] = useState("");
+    const [postId, setPostId] = useState(0);
 
-    handleGreetingStatusChange = () => {
-        this.setState({ isShowingGreeting: false });
+    const handleGreetingStatusChange = () => {
+        setIsShowingGreeting(false);
     };
 
     // ONCHANGE
-    handleTitleValueChange = e => {
-        this.setState({
-            titleValue: e.target.value
-        });
+    const handleTitleValueChange = (e) => {
+        setTitleValue(e.target.value);
     };
 
-    handlePostValueChange = e => {
-        this.setState({
-            postValue: e.target.value
-        });
+    const handlePostValueChange = (e) => {
+        setPostValue(e.target.value);
     };
     // ONCHANGE END
 
-    callback = () => {
-        this.props.history.push("/simple-blog/");
-        this.props.handleAddPost({
-            titleValue: this.state.titleValue,
-            postValue: this.state.postValue,
-            username: this.props.users.find(user => user.isOnline === true)
+    const callback = () => {
+        props.history.push("/simple-blog/");
+        props.handleAddPost({
+            titleValue: titleValue,
+            postValue: postValue,
+            username: props.users.find((user) => user.isOnline === true)
                 .username,
-            time: this.time(),
-            comments: []
+            time: time(),
+            comments: [],
         });
     };
 
-    givePostToApp = () => {
-        this.setState(
-            state => ({ postId: state.postId + 1 }),
-            () => this.callback()
-        );
+    const givePostToApp = () => {
+        setPostId(postId + 1);
+        callback();
     };
-    time = () => {
+
+    const time = () => {
         let date = new Date();
         return date.toLocaleTimeString();
     };
 
-    render() {
-        const { classes } = this.props;
-        return (
-            <div className="input-global-container">
-                <form className={classes.root} noValidate autoComplete="off">
-                    <TextField
-                        className={classes.title}
-                        id="standard-basic"
-                        label="Write a title"
-                        onChange={this.handleTitleValueChange}
-                    />
-                    <TextField
-                        id="outlined-basic"
-                        label="Write a post"
-                        variant="outlined"
-                        onChange={this.handlePostValueChange}
-                    />
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.givePostToApp}
-                    >
-                        <span>
-                            <i className="fas fa-check fa-2x"></i>
-                        </span>
-                    </Button>
-                </form>
-            </div>
-        );
-    }
-}
+    const classes = useStyles();
+    return (
+        <div className="input-global-container">
+            <form className={classes.root} noValidate autoComplete="off">
+                <TextField
+                    className={classes.title}
+                    id="standard-basic"
+                    label="Write a title"
+                    onChange={handleTitleValueChange}
+                />
+                <TextField
+                    id="outlined-basic"
+                    label="Write a post"
+                    variant="outlined"
+                    onChange={handlePostValueChange}
+                />
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={givePostToApp}
+                >
+                    <span>
+                        <i className="fas fa-check fa-2x"></i>
+                    </span>
+                </Button>
+            </form>
+        </div>
+    );
+};
 
-// export default withRouter(Create)
-export default withStyles(styles)(withRouter(Create));
+export default withRouter(Create);
