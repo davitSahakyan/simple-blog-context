@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // Router-dom
 import { withRouter } from "react-router-dom";
 // Material-ui
@@ -12,20 +12,20 @@ import Typography from "@material-ui/core/Typography";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { green, red } from "@material-ui/core/colors";
-import { withStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 // CSS
 import "../Edit/Edit.css";
 // Components
 
-const styles = (theme) => ({
+const useStyles = makeStyles({
     root: {
         width: "60%",
         margin: "1rem auto",
         height: 150,
         backgroundColor: "#f2f2f2",
         "& > *": {
-            margin: theme.spacing(1),
+            margin: "5px",
             width: "100%",
         },
     },
@@ -37,35 +37,22 @@ const styles = (theme) => ({
     },
 });
 
-class Comment extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isCommentEditing: false,
-            commentValue: "",
-        };
-    }
+const Comment = (props) => {
+    const [isCommentEditing, setIsCommentEditing] = useState(false);
+    const [commentValue, setCommentValue] = useState("");
 
-    changeEditStatus = () => {
-        this.setState(
-            {
-                isCommentEditing: !this.state.isCommentEditing,
-            },
-            this.props.changeCommentValue(
-                this.props.item.id,
-                this.state.commentValue
-            )
-        );
+    const changeEditStatus = () => {
+        setIsCommentEditing(!isCommentEditing);
+
+        props.changeCommentValue(props.item.id, commentValue);
     };
 
-    handleCommentOnChange = (e) => {
-        this.setState({
-            commentValue: e.target.value,
-        });
+    const handleCommentOnChange = (e) => {
+        setCommentValue(e.target.value);
     };
 
-    checkIfIsLoggedIn = () => {
-        const { item, loginedUser } = this.props;
+    const checkIfIsLoggedIn = () => {
+        const { item, loginedUser } = props;
         if (
             loginedUser[0].username === item.username &&
             loginedUser[0].password === item.password
@@ -76,79 +63,73 @@ class Comment extends React.Component {
         }
     };
 
-    render() {
-        const { classes, item, deleteComment } = this.props;
-        const { isCommentEditing, commentValue } = this.state;
+    const { item, deleteComment } = props;
+    const classes = useStyles();
 
-        return (
-            <Card className={classes.root}>
-                <div className={classes.mainCard}>
-                    <div>
-                        <CardHeader
-                            avatar={
-                                <Avatar
-                                    aria-label="recipe"
-                                    style={{ backgroundColor: green[300] }}
-                                >
-                                    {item.username[0].toUpperCase()}
-                                </Avatar>
-                            }
-                            title={`${item.commentTime} written by ${item.username} `}
-                        />
-                        <CardContent>
-                            {isCommentEditing ? (
-                                <TextField
-                                    id="outlined-basic"
-                                    label="Write a post"
-                                    variant="outlined"
-                                    defaultValue={
-                                        commentValue
-                                            ? commentValue
-                                            : item.commentValue
-                                    }
-                                    onChange={this.handleCommentOnChange}
-                                />
-                            ) : (
-                                <Typography
-                                    variant="body2"
-                                    color="textSecondary"
-                                    component="p"
-                                >
-                                    {commentValue
+    return (
+        <Card className={classes.root}>
+            <div className={classes.mainCard}>
+                <div>
+                    <CardHeader
+                        avatar={
+                            <Avatar
+                                aria-label="recipe"
+                                style={{ backgroundColor: green[300] }}
+                            >
+                                {item.username[0].toUpperCase()}
+                            </Avatar>
+                        }
+                        title={`${item.commentTime} written by ${item.username} `}
+                    />
+                    <CardContent>
+                        {isCommentEditing ? (
+                            <TextField
+                                id="outlined-basic"
+                                label="Write a post"
+                                variant="outlined"
+                                defaultValue={
+                                    commentValue
                                         ? commentValue
-                                        : item.commentValue}
-                                </Typography>
-                            )}
-                        </CardContent>
-                    </div>
-                    <div>
-                        <CardActions disableSpacing>
-                            <IconButton
-                                aria-label="share"
-                                onClick={this.changeEditStatus}
-                                disabled={this.checkIfIsLoggedIn()}
-                            >
-                                <EditIcon style={{ color: green[500] }} />
-                            </IconButton>
-                        </CardActions>
-                        <CardActions disableSpacing>
-                            <IconButton
-                                aria-label="share"
-                                disabled={this.checkIfIsLoggedIn()}
-                                onClick={() =>
-                                    deleteComment(this.props.item.id)
+                                        : item.commentValue
                                 }
+                                onChange={handleCommentOnChange}
+                            />
+                        ) : (
+                            <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                component="p"
                             >
-                                <DeleteForeverIcon
-                                    style={{ color: red[500] }}
-                                />
-                            </IconButton>
-                        </CardActions>
-                    </div>
+                                {commentValue
+                                    ? commentValue
+                                    : item.commentValue}
+                            </Typography>
+                        )}
+                    </CardContent>
                 </div>
-            </Card>
-        );
-    }
-}
+                <div>
+                    <CardActions disableSpacing>
+                        <IconButton
+                            aria-label="share"
+                            onClick={changeEditStatus}
+                            disabled={checkIfIsLoggedIn()}
+                        >
+                            <EditIcon style={{ color: green[500] }} />
+                        </IconButton>
+                    </CardActions>
+                    <CardActions disableSpacing>
+                        <IconButton
+                            aria-label="share"
+                            disabled={checkIfIsLoggedIn()}
+                            onClick={() => deleteComment(props.item.id)}
+                        >
+                            <DeleteForeverIcon style={{ color: red[500] }} />
+                        </IconButton>
+                    </CardActions>
+                </div>
+            </div>
+        </Card>
+    );
+};
 
-export default withStyles(styles)(withRouter(Comment));
+export default withRouter(Comment);
