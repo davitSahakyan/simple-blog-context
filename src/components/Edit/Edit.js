@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 // Router-dom
 import { withRouter } from "react-router-dom";
 // Material-ui
@@ -13,177 +13,157 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
 import { green, red } from "@material-ui/core/colors";
-import { withStyles, Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 // CSS
 import "./Edit.css";
 // Components
 import CommentCreator from "../Comment/CommentCreator";
 
-const styles = theme => ({
+const useStyles = makeStyles({
     root: {
         width: "80%",
         margin: "auto",
         "& > *": {
-            margin: theme.spacing(1),
-            width: "100%"
-        }
+            margin: "10px",
+            width: "100%",
+        },
     },
     mainCard: {
         width: "80%",
-        margin: "auto"
-    }
+        margin: "auto",
+    },
 });
 
-class Edit extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            post: this.props.posts.find(
-                post => `:${post.postId}` === this.props.match.params.id
-            ),
-            isPostValueChanging: false,
-            newPostValue: "",
-            loginedUser: {},
-            buttonDisabled: false
-        };
-    }
+const Edit = (props) => {
+    const [post, setPost] = useState(
+        props.posts.find((post) => `:${post.postId}` === props.match.params.id)
+    );
+    const [isPostValueChanging, setIsPostValueChanging] = useState(false);
+    const [newPostValue, setNewPostValue] = useState("");
+    const [loginedUser, setLoginedUser] = useState("");
+    const [buttonDisabled, setButtonDisabled] = useState(false);
 
-    componentDidMount() {
-        let loginedUser = this.props.users.find(user => user.isOnline === true);
+    useEffect(() => {
+        let loginedUser = props.users.find((user) => user.isOnline === true);
 
         const buttonDisabled =
-            loginedUser.username !== this.state.post.username &&
-            loginedUser.password !== this.state.post.password;
+            loginedUser.username !== post.username &&
+            loginedUser.password !== post.password;
 
-        this.setState({
-            loginedUser: loginedUser,
-            buttonDisabled: buttonDisabled
-        });
-    }
+        setLoginedUser(loginedUser);
+        setButtonDisabled(buttonDisabled);
+    });
+
     //  CHANGES IS-POST VALUE CHANGING
-    editPostValue = () => {
-        this.setState({
-            isPostValueChanging: !this.state.isPostValueChanging
-        });
-        const { post, newPostValue } = this.state;
-        this.props.handleNewPostValue(
+    const editPostValue = () => {
+        setIsPostValueChanging(!isPostValueChanging);
+
+        props.handleNewPostValue(
             post.postId,
             newPostValue ? newPostValue : post.postValue
         );
     };
 
     // On Post Value change
-    onPostValueChange = e => {
-        this.setState({
-            newPostValue: e.target.value
-                ? e.target.value
-                : this.state.post.postValue
-        });
+    const onPostValueChange = (e) => {
+        setNewPostValue(
+            e.target.value ? e.target.value : this.state.post.postValue
+        );
     };
+
     // ON done icon click
-    handleDoneIconClick = () => {
-        const { post, newPostValue } = this.state;
-        this.setState({
-            isPostValueChanging: false
-        });
-        this.props.handleNewPostValue(
+    const handleDoneIconClick = () => {
+        setIsPostValueChanging(false);
+        props.handleNewPostValue(
             post.postId,
             newPostValue ? newPostValue : post.postValue
         );
     };
+
     // ON delete icon click
-    handleDeleteIconClick = () => {
-        const { post } = this.state;
-        this.props.history.push("/simple-blog/");
-        this.props.handlePostsFilter(post.postId);
+    const handleDeleteIconClick = () => {
+        props.history.push("/simple-blog/");
+        props.handlePostsFilter(post.postId);
     };
 
-    render() {
-        const { classes } = this.props;
-        const { post, isPostValueChanging, newPostValue } = this.state;
-
-        return (
-            <>
-                <Card className={classes.root}>
-                    <div className={classes.mainCard}>
-                        <CardHeader
-                            avatar={
-                                <Avatar
-                                    aria-label="recipe"
-                                    style={{ backgroundColor: green[300] }}
-                                >
-                                    {post.username[0].toUpperCase()}
-                                </Avatar>
-                            }
-                            title={`${post.titleValue} writed by ${post.username} `}
-                            subheader={post.time}
-                        />
-                        <CardContent>
-                            {isPostValueChanging ? (
-                                <TextField
-                                    id="outlined-basic"
-                                    label="Write a post"
-                                    variant="outlined"
-                                    defaultValue={
-                                        newPostValue
-                                            ? newPostValue
-                                            : post.postValue
-                                    }
-                                    onChange={this.onPostValueChange}
+    const classes = useStyles();
+    return (
+        <>
+            <Card className={classes.root}>
+                <div className={classes.mainCard}>
+                    <CardHeader
+                        avatar={
+                            <Avatar
+                                aria-label="recipe"
+                                style={{ backgroundColor: green[300] }}
+                            >
+                                {post.username[0].toUpperCase()}
+                            </Avatar>
+                        }
+                        title={`${post.titleValue} writed by ${post.username} `}
+                        subheader={post.time}
+                    />
+                    <CardContent>
+                        {isPostValueChanging ? (
+                            <TextField
+                                id="outlined-basic"
+                                label="Write a post"
+                                variant="outlined"
+                                defaultValue={
+                                    newPostValue ? newPostValue : post.postValue
+                                }
+                                onChange={onPostValueChange}
+                            />
+                        ) : (
+                            <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                component="p"
+                            >
+                                {newPostValue ? newPostValue : post.postValue}
+                            </Typography>
+                        )}
+                    </CardContent>
+                    <div className="edit-btn-container">
+                        <CardActions disableSpacing>
+                            <IconButton
+                                aria-label="share"
+                                onClick={editPostValue}
+                                disabled={buttonDisabled}
+                            >
+                                <EditIcon style={{ color: green[500] }} />
+                            </IconButton>
+                        </CardActions>
+                        <CardActions disableSpacing>
+                            <IconButton
+                                aria-label="share"
+                                onClick={handleDeleteIconClick}
+                                disabled={buttonDisabled}
+                            >
+                                <DeleteForeverIcon
+                                    style={{ color: red[500] }}
                                 />
-                            ) : (
-                                <Typography
-                                    variant="body2"
-                                    color="textSecondary"
-                                    component="p"
-                                >
-                                    {newPostValue
-                                        ? newPostValue
-                                        : post.postValue}
-                                </Typography>
-                            )}
-                        </CardContent>
-                        <div className="edit-btn-container">
-                            <CardActions disableSpacing>
-                                <IconButton
-                                    aria-label="share"
-                                    onClick={this.editPostValue}
-                                    disabled={this.state.buttonDisabled}
-                                >
-                                    <EditIcon style={{ color: green[500] }} />
-                                </IconButton>
-                            </CardActions>
-                            <CardActions disableSpacing>
-                                <IconButton
-                                    aria-label="share"
-                                    onClick={this.handleDeleteIconClick}
-                                    disabled={this.state.buttonDisabled}
-                                >
-                                    <DeleteForeverIcon
-                                        style={{ color: red[500] }}
-                                    />
-                                </IconButton>
-                            </CardActions>
-                            <CardActions disableSpacing>
-                                <IconButton
-                                    aria-label="share"
-                                    onClick={this.handleDoneIconClick}
-                                >
-                                    <DoneOutlineIcon color="primary" />
-                                </IconButton>
-                            </CardActions>
-                        </div>
+                            </IconButton>
+                        </CardActions>
+                        <CardActions disableSpacing>
+                            <IconButton
+                                aria-label="share"
+                                onClick={handleDoneIconClick}
+                            >
+                                <DoneOutlineIcon color="primary" />
+                            </IconButton>
+                        </CardActions>
                     </div>
-                </Card>
-                <CommentCreator
-                    post={post}
-                    loginedUser={this.props.loginedUser}
-                    handleAddCommentToPost={this.props.handleAddCommentToPost}
-                />
-            </>
-        );
-    }
-}
+                </div>
+            </Card>
+            <CommentCreator
+                post={post}
+                loginedUser={props.loginedUser}
+                handleAddCommentToPost={props.handleAddCommentToPost}
+            />
+        </>
+    );
+};
 
-export default withStyles(styles)(withRouter(Edit));
+export default withRouter(Edit);
