@@ -7,6 +7,7 @@ import LogIn from "./components/LogIn/LogIn";
 import Create from "./components/Create/Create";
 import Posts from "./components/Posts/Posts";
 import Edit from "./components/Edit/Edit";
+import Context from "./context";
 
 import LogOutModal from "./components/Navigation/LogOutModal";
 
@@ -123,57 +124,59 @@ const App = (props) => {
     let loginedUser = users.filter((user) => user.isOnline === true);
 
     return (
-        <div className="app">
-            <Navigation
-                isLoggedIn={isLoggedIn}
-                // changeRegistrationStatus={changeRegistrationStatus}
-            />
+        <Context.Provider value={{ isLoggedIn }}>
+            <div className="app">
+                <Navigation isLoggedIn={isLoggedIn} />
 
-            <Switch>
-                <Route path="/simple-blog/log-out-modal" exact>
-                    <LogOutModal
-                        changeAllUsersStatusToOffline={
-                            changeAllUsersStatusToOffline
-                        }
-                        changeLoginStatus={changeLoginStatus}
-                    />
-                </Route>
-                <Route path="/simple-blog/verify">
-                    <LogIn
-                        users={users}
-                        changeLoggedUserStatusToOnline={
-                            changeLoggedUserStatusToOnline
-                        }
-                        handleUserInfo={handleUserInfo}
-                    />
-                </Route>
-                <Route path="/simple-blog/create">
-                    {isLoggedIn ? (
-                        <Create handleAddPost={handleAddPost} users={users} />
-                    ) : (
-                        <Redirect to="/simple-blog/verify" />
-                    )}
-                </Route>
-                <Route path="/simple-blog" exact>
-                    {!!posts.length ? (
-                        <Posts posts={posts} isLoggedIn={isLoggedIn} />
-                    ) : (
-                        <Registration isLoggedIn={isLoggedIn} />
-                    )}
-                </Route>
-                {/* EDIT PART */}
-                <Route path="/simple-blog/post/edit:id" exact>
-                    <Edit
-                        users={users}
-                        posts={posts}
-                        handleNewPostValue={handleNewPostValue}
-                        handlePostsFilter={handlePostsFilter}
-                        loginedUser={loginedUser}
-                        handleAddCommentToPost={handleAddCommentToPost}
-                    />
-                </Route>
-            </Switch>
-        </div>
+                <Switch>
+                    <Route path="/simple-blog/log-out-modal" exact>
+                        <LogOutModal
+                            changeAllUsersStatusToOffline={
+                                changeAllUsersStatusToOffline
+                            }
+                            changeLoginStatus={changeLoginStatus}
+                        />
+                    </Route>
+                    <Route path="/simple-blog/verify">
+                        <LogIn
+                            users={users}
+                            changeLoggedUserStatusToOnline={
+                                changeLoggedUserStatusToOnline
+                            }
+                            handleUserInfo={handleUserInfo}
+                        />
+                    </Route>
+                    <Route path="/simple-blog/create">
+                        {isLoggedIn ? (
+                            <Create
+                                handleAddPost={handleAddPost}
+                                users={users}
+                            />
+                        ) : (
+                            <Redirect to="/simple-blog/verify" />
+                        )}
+                    </Route>
+                    <Route path="/simple-blog" exact>
+                        {!!posts.length ? (
+                            <Posts posts={posts} isLoggedIn={isLoggedIn} />
+                        ) : (
+                            <Registration isLoggedIn={isLoggedIn} />
+                        )}
+                    </Route>
+                    {/* EDIT PART */}
+                    <Route path="/simple-blog/post/edit:id" exact>
+                        <Edit
+                            users={users}
+                            posts={posts}
+                            handleNewPostValue={handleNewPostValue}
+                            handlePostsFilter={handlePostsFilter}
+                            loginedUser={loginedUser}
+                            handleAddCommentToPost={handleAddCommentToPost}
+                        />
+                    </Route>
+                </Switch>
+            </div>
+        </Context.Provider>
     );
 };
 
