@@ -124,18 +124,19 @@ const App = (props) => {
     let loginedUser = users.filter((user) => user.isOnline === true);
 
     return (
-        <Context.Provider value={{ isLoggedIn }}>
+        <Context.Provider
+            value={{
+                isLoggedIn,
+                changeAllUsersStatusToOffline,
+                changeLoginStatus,
+            }}
+        >
             <div className="app">
                 <Navigation />
 
                 <Switch>
                     <Route path="/simple-blog/log-out-modal" exact>
-                        <LogOutModal
-                            changeAllUsersStatusToOffline={
-                                changeAllUsersStatusToOffline
-                            }
-                            changeLoginStatus={changeLoginStatus}
-                        />
+                        <LogOutModal />
                     </Route>
                     <Route path="/simple-blog/verify">
                         <LogIn
