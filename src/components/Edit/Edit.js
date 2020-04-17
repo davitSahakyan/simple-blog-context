@@ -67,9 +67,7 @@ const Edit = (props) => {
 
     // On Post Value change
     const onPostValueChange = (e) => {
-        setNewPostValue(
-            e.target.value ? e.target.value : this.state.post.postValue
-        );
+        setNewPostValue(e.target.value ? e.target.value : post.postValue);
     };
 
     // ON done icon click

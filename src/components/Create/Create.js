@@ -81,7 +81,7 @@ const Create = (props) => {
                     onClick={givePostToApp}
                 >
                     <span>
-                        <i className="fas fa-check fa-2x"></i>
+                        <i className="fas fa-check fa-2x">Create</i>
                     </span>
                 </Button>
             </form>
