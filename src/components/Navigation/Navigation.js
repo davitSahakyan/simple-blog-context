@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Navigation.css";
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Context from "../../context";
 
 const Navigation = (props) => {
+    const { isLoggedIn } = useContext(Context);
     return (
         <div className="navigation-container">
             <div className="navigation">
@@ -21,7 +23,7 @@ const Navigation = (props) => {
                     </Link>
                 </div>
 
-                {props.isLoggedIn === true || props.isLoggedIn === "true" ? (
+                {isLoggedIn === true || isLoggedIn === "true" ? (
                     <div
                         className="right-nav"
                         onClick={() =>

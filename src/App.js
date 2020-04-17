@@ -126,7 +126,7 @@ const App = (props) => {
     return (
         <Context.Provider value={{ isLoggedIn }}>
             <div className="app">
-                <Navigation isLoggedIn={isLoggedIn} />
+                <Navigation />
 
                 <Switch>
                     <Route path="/simple-blog/log-out-modal" exact>
