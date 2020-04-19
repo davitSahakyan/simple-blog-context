@@ -127,8 +127,12 @@ const App = (props) => {
         <Context.Provider
             value={{
                 isLoggedIn,
+                users,
                 changeAllUsersStatusToOffline,
                 changeLoginStatus,
+
+                changeLoggedUserStatusToOnline,
+                handleUserInfo,
             }}
         >
             <div className="app">

@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./LogIn.css";
 import { withRouter } from "react-router-dom";
+// Context
+import Context from "../../context";
 
 function LogIn(props) {
+    const {
+        users,
+        changeLoggedUserStatusToOnline,
+        handleUserInfo,
+    } = useContext(Context);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isOnline, setIsOnline] = useState(false);
@@ -33,7 +40,7 @@ function LogIn(props) {
         }
     };
 
-    let registeredUser = props.users.find(
+    let registeredUser = users.find(
         (user) => user.username === username && user.password === password
     );
 
@@ -63,13 +70,13 @@ function LogIn(props) {
     };
 
     const give = (registeredUser) => {
-        props.changeLoggedUserStatusToOnline(registeredUser);
+        changeLoggedUserStatusToOnline(registeredUser);
         props.history.push("/simple-blog");
     };
 
     const createNewUser = () => {
         props.history.push("/simple-blog");
-        props.handleUserInfo(username, password, isOnline);
+        handleUserInfo(username, password, isOnline);
     };
 
     let usernameErr = null;
