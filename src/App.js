@@ -130,7 +130,7 @@ const App = (props) => {
                 users,
                 changeAllUsersStatusToOffline,
                 changeLoginStatus,
-
+                handleAddPost,
                 changeLoggedUserStatusToOnline,
                 handleUserInfo,
             }}
@@ -143,20 +143,11 @@ const App = (props) => {
                         <LogOutModal />
                     </Route>
                     <Route path="/simple-blog/verify">
-                        <LogIn
-                            users={users}
-                            changeLoggedUserStatusToOnline={
-                                changeLoggedUserStatusToOnline
-                            }
-                            handleUserInfo={handleUserInfo}
-                        />
+                        <LogIn />
                     </Route>
                     <Route path="/simple-blog/create">
                         {isLoggedIn ? (
-                            <Create
-                                handleAddPost={handleAddPost}
-                                users={users}
-                            />
+                            <Create />
                         ) : (
                             <Redirect to="/simple-blog/verify" />
                         )}

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import PropTypes from "prop-types";
 import "./Main.css";
 // import Comment from '../Comment/Comment'
 import { withRouter } from "react-router-dom";
@@ -6,6 +7,8 @@ import { withRouter } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+// Context
+import Context from "../../context";
 
 const useStyles = makeStyles({
     root: {
@@ -18,14 +21,10 @@ const useStyles = makeStyles({
 });
 
 const Create = (props) => {
-    const [isShowingGreeting, setIsShowingGreeting] = useState(true);
+    const { users, handleAddPost } = useContext(Context);
     const [titleValue, setTitleValue] = useState("");
     const [postValue, setPostValue] = useState("");
     const [postId, setPostId] = useState(0);
-
-    const handleGreetingStatusChange = () => {
-        setIsShowingGreeting(false);
-    };
 
     // ONCHANGE
     const handleTitleValueChange = (e) => {
@@ -39,11 +38,10 @@ const Create = (props) => {
 
     const callback = () => {
         props.history.push("/simple-blog/");
-        props.handleAddPost({
+        handleAddPost({
             titleValue: titleValue,
             postValue: postValue,
-            username: props.users.find((user) => user.isOnline === true)
-                .username,
+            username: users.find((user) => user.isOnline === true).username,
             time: time(),
             comments: [],
         });
@@ -60,6 +58,7 @@ const Create = (props) => {
     };
 
     const classes = useStyles();
+    console.log("Works users --", users);
     return (
         <div className="input-global-container">
             <form className={classes.root} noValidate autoComplete="off">
@@ -87,6 +86,11 @@ const Create = (props) => {
             </form>
         </div>
     );
+};
+
+Create.propTypes = {
+    users: PropTypes.array.isRequired,
+    handleAddPost: PropTypes.func.isRequired,
 };
 
 export default withRouter(Create);

@@ -36,9 +36,7 @@ function LogOutModal(props) {
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(true);
-    const { changeAllUsersStatusToOffline, changeLoginStatus } = useContext(
-        Context
-    );
+    const { changeAllUsersStatusToOffline } = useContext(Context);
     const handleClose = () => {
         setOpen(false);
     };
