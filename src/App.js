@@ -128,11 +128,16 @@ const App = (props) => {
             value={{
                 isLoggedIn,
                 users,
+                posts,
+                loginedUser,
                 changeAllUsersStatusToOffline,
                 changeLoginStatus,
                 handleAddPost,
                 changeLoggedUserStatusToOnline,
                 handleUserInfo,
+                handleNewPostValue,
+                handlePostsFilter,
+                handleAddCommentToPost,
             }}
         >
             <div className="app">
@@ -153,22 +158,11 @@ const App = (props) => {
                         )}
                     </Route>
                     <Route path="/simple-blog" exact>
-                        {!!posts.length ? (
-                            <Posts posts={posts} isLoggedIn={isLoggedIn} />
-                        ) : (
-                            <Registration isLoggedIn={isLoggedIn} />
-                        )}
+                        {!!posts.length ? <Posts /> : <Registration />}
                     </Route>
                     {/* EDIT PART */}
                     <Route path="/simple-blog/post/edit:id" exact>
-                        <Edit
-                            users={users}
-                            posts={posts}
-                            handleNewPostValue={handleNewPostValue}
-                            handlePostsFilter={handlePostsFilter}
-                            loginedUser={loginedUser}
-                            handleAddCommentToPost={handleAddCommentToPost}
-                        />
+                        <Edit />
                     </Route>
                 </Switch>
             </div>

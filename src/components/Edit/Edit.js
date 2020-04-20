@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 // Router-dom
 import { withRouter } from "react-router-dom";
 // Material-ui
@@ -19,6 +19,8 @@ import TextField from "@material-ui/core/TextField";
 import "./Edit.css";
 // Components
 import CommentCreator from "../Comment/CommentCreator";
+// Context
+import Context from "../../context";
 
 const useStyles = makeStyles({
     root: {
@@ -36,22 +38,29 @@ const useStyles = makeStyles({
 });
 
 const Edit = (props) => {
+    const {
+        users,
+        posts,
+        handleNewPostValue,
+        handlePostsFilter,
+        loginedUser,
+        handleAddCommentToPost,
+    } = useContext(Context);
+
     const [post, setPost] = useState(
-        props.posts.find((post) => `:${post.postId}` === props.match.params.id)
+        posts.find((post) => `:${post.postId}` === props.match.params.id)
     );
     const [isPostValueChanging, setIsPostValueChanging] = useState(false);
     const [newPostValue, setNewPostValue] = useState("");
-    const [loginedUser, setLoginedUser] = useState("");
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
     useEffect(() => {
-        let loginedUser = props.users.find((user) => user.isOnline === true);
+        let loginedUser = users.find((user) => user.isOnline === true);
 
         const buttonDisabled =
             loginedUser.username !== post.username &&
             loginedUser.password !== post.password;
 
-        setLoginedUser(loginedUser);
         setButtonDisabled(buttonDisabled);
     });
 
@@ -59,7 +68,7 @@ const Edit = (props) => {
     const editPostValue = () => {
         setIsPostValueChanging(!isPostValueChanging);
 
-        props.handleNewPostValue(
+        handleNewPostValue(
             post.postId,
             newPostValue ? newPostValue : post.postValue
         );
@@ -73,7 +82,7 @@ const Edit = (props) => {
     // ON done icon click
     const handleDoneIconClick = () => {
         setIsPostValueChanging(false);
-        props.handleNewPostValue(
+        handleNewPostValue(
             post.postId,
             newPostValue ? newPostValue : post.postValue
         );
@@ -82,7 +91,7 @@ const Edit = (props) => {
     // ON delete icon click
     const handleDeleteIconClick = () => {
         props.history.push("/simple-blog/");
-        props.handlePostsFilter(post.postId);
+        handlePostsFilter(post.postId);
     };
 
     const classes = useStyles();
@@ -157,8 +166,8 @@ const Edit = (props) => {
             </Card>
             <CommentCreator
                 post={post}
-                loginedUser={props.loginedUser}
-                handleAddCommentToPost={props.handleAddCommentToPost}
+                loginedUser={loginedUser}
+                handleAddCommentToPost={handleAddCommentToPost}
             />
         </>
     );

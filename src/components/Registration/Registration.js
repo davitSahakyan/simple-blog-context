@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Registration.css";
 import { withRouter } from "react-router-dom";
+// Context
+import Context from "../../context";
 
 const Registration = (props) => {
-    if (props.isLoggedIn) {
+    const { isLoggedIn } = useContext(Context);
+    if (isLoggedIn) {
         return (
             <div className="registartion">
                 <div className="registartion-box">
