@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -10,36 +11,39 @@ import Typography from "@material-ui/core/Typography";
 import { withRouter } from "react-router-dom";
 import "./Posts.css";
 // components
+// Context
+import Context from "../../context";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         width: "80%",
         margin: "auto",
-        marginTop: "5px"
+        marginTop: "5px",
     },
     media: {
         height: 0,
-        paddingTop: "56.25%" // 16:9
+        paddingTop: "56.25%", // 16:9
     },
     expand: {
         transform: "rotate(0deg)",
         margin: "auto",
         transition: theme.transitions.create("transform", {
-            duration: theme.transitions.duration.shortest
-        })
+            duration: theme.transitions.duration.shortest,
+        }),
     },
     expandOpen: {
-        transform: "rotate(180deg)"
+        transform: "rotate(180deg)",
     },
     avatar: {
-        backgroundColor: "lightskyblue"
-    }
+        backgroundColor: "lightskyblue",
+    },
 }));
 
 function Posts(props) {
+    const { posts, isLoggedIn } = useContext(Context);
     const classes = useStyles();
 
-    return props.posts.map((post, index) => {
+    return posts.map((post, index) => {
         return (
             <Card className={classes.root} key={index}>
                 <div className="card-container">
@@ -72,7 +76,7 @@ function Posts(props) {
                         <IconButton
                             aria-label="share"
                             color="primary"
-                            disabled={props.isLoggedIn === false}
+                            disabled={isLoggedIn === false}
                             onClick={() =>
                                 props.history.push(
                                     `/simple-blog/post/edit:${post.postId}`

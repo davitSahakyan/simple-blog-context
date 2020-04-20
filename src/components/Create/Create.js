@@ -21,11 +21,10 @@ const useStyles = makeStyles({
 });
 
 const Create = (props) => {
-    const { users, handleAddPost } = useContext(Context);
     const [titleValue, setTitleValue] = useState("");
     const [postValue, setPostValue] = useState("");
     const [postId, setPostId] = useState(0);
-
+    const { users, handleAddPost } = useContext(Context);
     // ONCHANGE
     const handleTitleValueChange = (e) => {
         setTitleValue(e.target.value);
@@ -58,7 +57,6 @@ const Create = (props) => {
     };
 
     const classes = useStyles();
-    console.log("Works users --", users);
     return (
         <div className="input-global-container">
             <form className={classes.root} noValidate autoComplete="off">
@@ -86,11 +84,6 @@ const Create = (props) => {
             </form>
         </div>
     );
-};
-
-Create.propTypes = {
-    users: PropTypes.array.isRequired,
-    handleAddPost: PropTypes.func.isRequired,
 };
 
 export default withRouter(Create);
