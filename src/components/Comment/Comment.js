@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 // Router-dom
 import { withRouter } from "react-router-dom";
 // Material-ui
@@ -130,6 +131,14 @@ const Comment = (props) => {
             </div>
         </Card>
     );
+};
+
+Comment.propTypes = {
+    post: PropTypes.object.isRequired,
+    loginedUser: PropTypes.array.isRequired,
+    item: PropTypes.object.isRequired,
+    changeCommentValue: PropTypes.func.isRequired,
+    deleteComment: PropTypes.func.isRequired,
 };
 
 export default withRouter(Comment);

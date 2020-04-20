@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import Comment from "./Comment";
 // Router-dom
 import { withRouter } from "react-router-dom";
@@ -24,14 +25,6 @@ const useStyles = makeStyles({
 });
 
 const CommentCreator = (props) => {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         comments: this.props.post.comments,
-    //         commentValue: "",
-    //         commentTime: this.time,
-    //     };
-    // }
     const [comments, setComments] = useState(props.post.comments);
     const [commentValue, setCommentValue] = useState("");
 
@@ -123,6 +116,12 @@ const CommentCreator = (props) => {
             })}
         </section>
     );
+};
+
+CommentCreator.propTypes = {
+    post: PropTypes.object.isRequired,
+    loginedUser: PropTypes.array.isRequired,
+    handleAddCommentToPost: PropTypes.func.isRequired,
 };
 
 export default withRouter(CommentCreator);
